@@ -1,0 +1,111 @@
+/* 背景：青空と緑の丘（オリジナル） */
+body { background: #1fa3ef url("bg.jpg") center 60% / cover no-repeat fixed; }
+@supports (-webkit-touch-callout: none) { body { background-attachment: scroll; } }
+/* 計算ツールのページ共通 */
+
+.crumb { font-size: 12px; color: var(--ink-2); margin-bottom: 10px; }
+.crumb a { color: inherit; }
+.tool-page h1 { font-family: "BIZ UDPMincho", serif; font-size: clamp(24px, 4vw, 32px); line-height: 1.4; margin: 0 0 4px; color: #fff; text-shadow: 0 2px 6px rgba(0,40,100,.45); word-break: auto-phrase; }
+.tool-page .lead { color: #fff; margin: 0 0 18px; font-size: 15px; text-shadow: 0 1px 4px rgba(0,40,100,.5); }
+
+.sheet { background: var(--sheet); border: 1.5px solid var(--ink); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,30,80,.25); }
+.sheet > :first-child { border-radius: 10px 10px 0 0; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 12px 16px; border-bottom: 1px solid var(--rule); align-items: center; }
+.opts .grp { display: flex; flex-wrap: wrap; gap: 4px; }
+.opts label { position: relative; }
+.opts input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.opts span { display: block; font-size: 14px; font-weight: 700; padding: 5px 12px; border: 1.5px solid var(--ink); border-radius: 999px; }
+.opts input:checked + span { background: var(--ink); color: var(--paper); }
+.opts input:focus-visible + span { outline: 3px solid var(--link); outline-offset: 2px; }
+
+.eq { text-align: center; font-size: 30px; padding: 20px 12px 8px; overflow-x: auto; }
+.legend { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; margin: 0; padding: 4px 24px 16px; font-size: 14px; border-bottom: 1px solid var(--rule); }
+.legend dt { font-family: "Times New Roman", serif; font-style: italic; font-weight: 700; font-size: 18px; text-align: center; }
+.legend dd { margin: 0; }
+
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px 16px; padding: 16px; }
+.f label { display: flex; align-items: flex-end; gap: 6px; font-size: 13px; font-weight: 700; margin-bottom: 3px; min-height: 28px; }
+.f label var { font-family: "Times New Roman", serif; font-size: 19px; font-weight: 700; }
+.f .in { display: flex; align-items: center; border-bottom: 2px solid var(--ink); }
+.f input { flex: 1; min-width: 0; font: inherit; font-weight: 700; font-size: 24px; border: 0; background: transparent; color: var(--ink); padding: 4px; text-align: right; font-variant-numeric: tabular-nums; }
+.f input:focus { outline: none; background: var(--accent-soft); }
+.f .u { font-size: 14px; color: var(--ink-2); padding-left: 4px; white-space: nowrap; }
+.f .hint { display: block; font-size: 12px; color: var(--ink-2); margin-top: 3px; line-height: 1.5; }
+.f select { width: 100%; font: inherit; font-size: 14px; padding: 6px; border: 1.5px solid var(--rule); background: var(--paper); color: var(--ink); margin-top: 6px; }
+
+.answer { background: var(--accent-soft); padding: 14px 16px 16px; }
+.answer .line { font-size: 24px; overflow-x: auto; }
+.answer .sub { font-size: 14px; font-weight: 700; color: var(--accent); margin-top: 2px; }
+
+.basis { font-size: 13px; color: var(--ink-2); margin: 14px 0 0; line-height: 1.75; background: color-mix(in srgb, var(--sheet) 88%, transparent); border-radius: 8px; padding: 10px 14px; }
+.other { margin-top: 36px; }
+.other h2 { font-family: "BIZ UDPMincho", serif; font-size: 18px; margin: 0 0 8px; border-bottom: 1px solid var(--ink); padding-bottom: 4px; }
+.other ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.other a { display: block; padding: 6px 12px; border: 1.5px solid var(--rule); background: var(--sheet); color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 700; }
+.other a:hover { border-color: var(--ink); }
+
+/* 画面全体を使うレイアウト：左に計算、右に草原のキャラと吹き出し */
+html, body { height: 100%; }
+.tool-page { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; height: 100vh; height: 100dvh; padding: 16px; box-sizing: border-box; }
+.sheet { display: flex; flex-direction: column; min-height: 0; overflow: auto; background: var(--sheet); border: 1.5px solid var(--ink); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,30,80,.25); }
+.titlebar { background: var(--ink); color: var(--paper); padding: 10px 20px; border-radius: 10px 10px 0 0; }
+.titlebar h1 { margin: 0; font-family: "BIZ UDPMincho", serif; font-size: clamp(18px, 1.8vw, 24px); line-height: 1.5; }
+.opts { padding: 12px 20px; }
+.eq { flex: 1 1 0; display: flex; align-items: center; justify-content: center; font-size: clamp(28px, 3.2vw, 60px); padding: 12px; min-height: 110px; }
+.legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px; padding: 0 20px 14px; font-size: clamp(13px, 1vw, 15px); }
+.legend > div { display: flex; align-items: baseline; gap: 6px; }
+.legend dt { font-size: 1.25em; min-width: 0; }
+.legend dd { margin: 0; }
+.fields { flex: 1 1 0; align-content: center; padding: 16px 20px 20px; gap: clamp(16px, 3vh, 40px) 20px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.f label { font-size: clamp(13px, 1vw, 16px); }
+.f label var { font-size: clamp(19px, 1.5vw, 26px); }
+.f input { font-size: clamp(22px, 2.4vw, 44px); }
+.basis-in { border-top: 1px solid var(--rule); padding: 8px 20px 10px; font-size: 12px; color: var(--ink-2); }
+.basis-in summary { cursor: pointer; font-weight: 700; }
+.basis-in p { margin: 4px 0 0; line-height: 1.7; }
+
+.stage { position: relative; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; min-height: 0; }
+/* 漫画の吹き出し：太い黒フチ＋ずらした黒影、しっぽはキャラの指先へ */
+.bubble { position: relative; z-index: 2; background: #fff; border: 4px solid #111; border-radius: 34px; padding: 20px 26px 22px; margin-top: 3vh; box-shadow: 7px 8px 0 #111; }
+.bubble::before, .bubble::after { content: ""; position: absolute; left: 30%; clip-path: polygon(0 0, 100% 0, 70% 100%); }
+.bubble::before { bottom: -46px; width: 50px; height: 46px; background: #111; margin-left: -4px; }
+.bubble::after { bottom: -36px; width: 40px; height: 38px; background: #fff; margin-left: 2px; }
+.bubble .line { font-size: clamp(22px, 2.6vw, 48px); overflow-x: auto; }
+.bubble .sub { font-size: clamp(14px, 1.1vw, 17px); font-weight: 700; color: var(--accent); margin-top: 4px; }
+.chara { position: absolute; left: 22%; bottom: -10px; height: 74%; z-index: 1; pointer-events: none; }
+.chara img { height: 100%; width: auto; display: block; filter: drop-shadow(0 6px 10px rgba(0,30,80,.25)); }
+
+@media (max-width: 900px) {
+  html, body { height: auto; }
+  body { min-height: 100%; background-attachment: scroll; }
+  .tool-page { grid-template-columns: minmax(0, 1fr); height: auto; min-height: 100dvh; padding: 10px; gap: 12px; }
+  .eq, .fields { flex: none; }
+  .sheet { overflow: visible; }
+  .eq { min-height: 0; }
+  .stage { min-height: 380px; }
+  .bubble { margin-top: 0; padding: 12px 14px 14px; }
+  .bubble .line { font-size: 18px; }
+  .chara { height: 240px; left: 28%; bottom: 0; }
+  .bubble { border-width: 3px; box-shadow: 5px 6px 0 #111; }
+}
+
+.credit { position: fixed; right: 8px; bottom: 6px; z-index: 3; font-size: 11px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); text-decoration: none; opacity: .85; }
+.credit:hover { text-decoration: underline; }
+@media (max-width: 900px) { .credit { position: static; display: block; text-align: right; padding: 0 10px 8px; } }
+.legend dt { white-space: nowrap; }
+@media (max-width: 900px) { .eq { font-size: clamp(20px, 6vw, 28px); } }
+.tbl { width: 100%; padding: 0 8px; }
+.tbl table { width: 100%; border-collapse: collapse; font-size: clamp(14px, 1.15vw, 18px); }
+.tbl th, .tbl td { border: 1.5px solid var(--ink); padding: 6px 10px; text-align: center; }
+.tbl th { background: var(--ink); color: var(--paper); font-weight: 700; }
+.tbl tr.on td { background: var(--accent-soft); font-weight: 700; }
+.bubble .big { font-size: clamp(18px, 1.8vw, 30px); font-weight: 700; line-height: 1.5; }
+.bubble .big b { color: var(--accent); }
+.bubble .line math + math { margin-top: 4px; }
+.eq { flex-direction: column; gap: 6px; }
+.eq.two { font-size: clamp(22px, 2.3vw, 40px); }
+.f input::placeholder { font-size: 15px; font-weight: 400; color: var(--ink-2); }
+.eq.two { font-size: clamp(26px, 2.9vw, 50px); }
+/* 吹き出しの数式が狭い画面ではみ出さないように */
+.bubble .line { font-size: clamp(17px, 1.75vw, 40px); overflow-x: visible; }
+.bubble .line math { max-width: 100%; }

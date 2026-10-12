@@ -1,0 +1,69 @@
+/* でんこうナビ（仮）：参考書の紙面 ＋ キャラクター */
+:root {
+  --paper: #fcfbf7;
+  --sheet: #ffffff;
+  --ink: #2b2b2b;
+  --ink-2: #5f5f66;
+  --rule: #d8d5cc;
+  --accent: #9a3412;      /* 参考書の朱 */
+  --accent-soft: #fbeee6;
+  --hero-a: #ffefe0;
+  --hero-b: #fff7c7;
+  --haisen: #d9443a; --haikan: #2f6fd1; --keisan: #c99700; --houki: #24965a;
+  --link: #1f5fbf;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1b1a18; --sheet: #242320; --ink: #eeebe3; --ink-2: #b3afa5; --rule: #3b3934;
+    --accent: #f08a5d; --accent-soft: #3a2a22; --hero-a: #3a2a1f; --hero-b: #33301c; --link: #8cb8ff; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1b1a18; --sheet: #242320; --ink: #eeebe3; --ink-2: #b3afa5; --rule: #3b3934;
+  --accent: #f08a5d; --accent-soft: #3a2a22; --hero-a: #3a2a1f; --hero-b: #33301c; --link: #8cb8ff; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: "BIZ UDPGothic", "Hiragino Sans", "Meiryo", sans-serif; font-size: 16px; line-height: 1.85; }
+a { color: var(--link); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+.mincho { font-family: "BIZ UDPMincho", "Hiragino Mincho ProN", "Yu Mincho", serif; }
+math { font-family: "STIX Two Math", "Cambria Math", "Times New Roman", serif; }
+
+/* ヘッダー */
+.site-header { border-bottom: 3px double var(--ink); background: var(--paper); }
+.site-header .inner { max-width: 1160px; margin: 0 auto; padding: 12px 20px 10px; display: flex; align-items: center; gap: 20px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.logo svg { width: 30px; height: 30px; flex: none; }
+.logo b { font-family: "BIZ UDPMincho", serif; font-size: 23px; letter-spacing: .08em; }
+.gnav { display: flex; gap: 2px; margin-left: auto; }
+.gnav a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 700; padding: 6px 12px; border-bottom: 3px solid transparent; }
+.gnav a:hover { border-bottom-color: var(--c, var(--accent)); }
+.gnav .haisen { --c: var(--haisen); } .gnav .haikan { --c: var(--haikan); } .gnav .keisan { --c: var(--keisan); } .gnav .houki { --c: var(--houki); }
+@media (max-width: 700px) { .gnav { display: none; } }
+
+/* キャラクター・イラストの差し込み枠 */
+.slot {
+  display: grid; place-items: center; text-align: center; color: var(--ink-2); font-size: 12px; line-height: 1.5;
+  background: repeating-linear-gradient(-45deg, rgba(0,0,0,.03) 0 9px, rgba(0,0,0,.065) 9px 18px);
+  border: 2px dashed var(--ink-2);
+}
+
+/* 会話 */
+.talk { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: start; margin: 18px 0; }
+.talk.sensei { grid-template-columns: minmax(0, 1fr) 64px; }
+.talk .face { width: 64px; height: 64px; border-radius: 50%; font-size: 11px; }
+.talk .face + .name, .talk .who { font-size: 11px; color: var(--ink-2); text-align: center; }
+.talk .say { position: relative; background: var(--sheet); border: 1.5px solid var(--rule); border-radius: 14px; padding: 10px 14px; font-size: 15px; line-height: 1.75; }
+.talk.sensei .say { background: var(--accent-soft); border-color: transparent; }
+.talk .say::before { content: ""; position: absolute; top: 20px; width: 10px; height: 10px; background: inherit; border: inherit; transform: rotate(45deg); }
+.talk:not(.sensei) .say::before { left: -6px; border-width: 0 0 1.5px 1.5px; }
+.talk.sensei .say::before { right: -6px; }
+.talk figure { margin: 0; text-align: center; }
+.talk figcaption { font-size: 11px; color: var(--ink-2); }
+
+/* フッター */
+.site-footer { border-top: 3px double var(--ink); margin-top: 56px; font-size: 13px; color: var(--ink-2); }
+.site-footer .inner { max-width: 1160px; margin: 0 auto; padding: 20px 20px 44px; }

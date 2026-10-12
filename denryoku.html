@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電力・電流の換算（単相・三相）｜でんこうナビ</title>
+<meta name="description" content="消費電力（kW）から電流（A）を、電流から電力を、単相・三相の式で計算します。力率にも対応。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/tool.css">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>電力・電流の換算</h1></div>
+    <div class="opts">
+      <div class="grp" role="radiogroup" aria-label="求めるもの">
+        <label><input type="radio" name="mode" value="i" checked><span>電流</span></label>
+        <label><input type="radio" name="mode" value="p"><span>電力</span></label>
+      </div>
+      <div class="grp" role="radiogroup" aria-label="電気方式">
+        <label><input type="radio" name="sys" value="1" checked><span>単相</span></label>
+        <label><input type="radio" name="sys" value="3"><span>三相</span></label>
+      </div>
+    </div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend">
+      <div><dt>I</dt><dd>電流〔A〕</dd></div><div><dt>P</dt><dd>消費電力〔kW〕</dd></div><div><dt>V</dt><dd>電圧〔V〕（三相は線間電圧）</dd></div><div><dt>cosφ</dt><dd>力率</dd></div>
+    </dl>
+    <form class="fields" onsubmit="return false" autocomplete="off">
+      <div class="f" id="fP"><label for="P"><var>P</var>消費電力</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="2.2"><span class="u">kW</span></div></div>
+      <div class="f" id="fI" hidden><label for="I"><var>I</var>電流</label><div class="in"><input id="I" type="number" inputmode="decimal" step="any" value="10"><span class="u">A</span></div></div>
+      <div class="f"><label for="V"><var>V</var>電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="200"><span class="u">V</span></div></div>
+      <div class="f"><label for="pf"><var>cosφ</var>力率</label><div class="in"><input id="pf" type="number" inputmode="decimal" step="any" value="0.85"></div><span class="hint">わからないときは1（抵抗負荷）、モーターは0.8前後が目安</span></div>
+    </form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>単相：<var>P</var> ＝ <var>V</var> × <var>I</var> × cosφ ÷ 1000、三相：<var>P</var> ＝ √3 × <var>V</var> × <var>I</var> × cosφ ÷ 1000。皮相電力（kVA）は力率を1として同じ式で求めた値です。モーターの場合、銘板の出力（kW）は軸出力なので、効率も考える必要があります。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+</main>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+
+
+<script src="assets/math.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { return document.querySelector('input[name="' + n + '"]:checked').value; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  var COS = '<mi>cos</mi><mo>&#8289;</mo><mi>φ</mi>';
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+
+  function render() {
+    var mode = radio('mode'), three = radio('sys') === '3';
+    $('fP').hidden = mode !== 'i'; $('fI').hidden = mode !== 'p';
+    var c = three ? R3 + M.x : '';
+    if (mode === 'i') {
+      $('eq').innerHTML = M.block(M.i('I') + M.eq + M.frac(M.i('P') + M.x + M.n('1000'), c + M.i('V') + M.x + COS) + M.unit('A'));
+    } else {
+      $('eq').innerHTML = M.block(M.i('P') + M.eq + M.frac(c + M.i('V') + M.x + M.i('I') + M.x + COS, M.n('1000')) + M.unit('kW'));
+    }
+    var V = num('V'), pf = num('pf'), k = three ? Math.sqrt(3) : 1;
+    if (!(V > 0 && pf > 0 && pf <= 1)) { $('line').textContent = '電圧と力率（0〜1）を入れてください'; $('sub').textContent = ''; return; }
+    var cs = three ? R3 + M.x : '';
+    if (mode === 'i') {
+      var P = num('P');
+      if (!isFinite(P)) { $('line').textContent = '消費電力を入れてください'; $('sub').textContent = ''; return; }
+      var I = P * 1000 / (k * V * pf);
+      $('line').innerHTML = M.block(M.i('I') + M.eq + M.frac(M.n(M.num(P)) + M.x + M.n('1000'), cs + M.n(M.num(V)) + M.x + M.n(M.num(pf))) + M.approx + M.nb(I.toFixed(2)) + M.unit('A'));
+      $('sub').textContent = '皮相電力 ' + (P / pf).toFixed(2) + 'kVA';
+    } else {
+      var Ii = num('I');
+      if (!isFinite(Ii)) { $('line').textContent = '電流を入れてください'; $('sub').textContent = ''; return; }
+      var Pk = k * V * Ii * pf / 1000;
+      $('line').innerHTML = M.block(M.i('P') + M.eq + M.frac(cs + M.n(M.num(V)) + M.x + M.n(M.num(Ii)) + M.x + M.n(M.num(pf)), M.n('1000')) + M.approx + M.nb(Pk.toFixed(2)) + M.unit('kW'));
+      $('sub').textContent = '皮相電力 ' + (k * V * Ii / 1000).toFixed(2) + 'kVA';
+    }
+  }
+  document.querySelectorAll('input').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+})();
+</script>
+</body>
+</html>

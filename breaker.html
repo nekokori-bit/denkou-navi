@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ブレーカー選定（幹線・分岐回路）｜でんこうナビ</title>
+<meta name="description" content="低圧幹線の電線の許容電流と過電流遮断器の定格（電技解釈第148条）、分岐回路の電線の太さとコンセント（第149条）を計算します。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/tool.css">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>ブレーカー選定</h1></div>
+    <div class="opts">
+      <div class="grp" role="radiogroup" aria-label="回路">
+        <label><input type="radio" name="mode" value="main" checked><span>幹線</span></label>
+        <label><input type="radio" name="mode" value="branch"><span>分岐回路</span></label>
+      </div>
+      <div class="grp" role="radiogroup" aria-label="遮断器の種類" id="kind" hidden>
+        <label><input type="radio" name="kind" value="mccb" checked><span>配線用遮断器</span></label>
+        <label><input type="radio" name="kind" value="fuse"><span>ヒューズ</span></label>
+      </div>
+    </div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off">
+      <div class="f" data-m="main"><label for="IM"><var>I<sub>M</sub></var>電動機等の合計</label><div class="in"><input id="IM" type="number" inputmode="decimal" step="any" value="40"><span class="u">A</span></div><span class="hint">電動機など始動電流が大きい機器の定格電流</span></div>
+      <div class="f" data-m="main"><label for="IH"><var>I<sub>H</sub></var>その他の機器の合計</label><div class="in"><input id="IH" type="number" inputmode="decimal" step="any" value="15"><span class="u">A</span></div><span class="hint">電熱器・照明などの定格電流</span></div>
+      <div class="f" data-m="main"><label for="IW"><var>I<sub>W</sub></var>使う電線の許容電流</label><div class="in"><input id="IW" type="number" inputmode="decimal" step="any" placeholder="空欄でもOK"><span class="u">A</span></div><span class="hint">許容電流のページで出した値を入れると、遮断器の上限がその値で決まります</span></div>
+      <div class="f" data-m="branch" hidden><label for="IB">遮断器の定格電流</label><select id="IB"></select></div>
+    </form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>幹線：電技解釈 第148条。電線の許容電流 <var>I<sub>W</sub></var> は負荷の定格電流の合計以上。電動機等の合計 <var>I<sub>M</sub></var> がその他の合計 <var>I<sub>H</sub></var> より大きいときは、<var>I<sub>M</sub></var> が50A以下なら1.25倍、50Aを超えるなら1.1倍した値に <var>I<sub>H</sub></var> を加えた値以上（需要率・力率が明らかな場合は修正できる）。過電流遮断器の定格電流は <var>I<sub>W</sub></var> 以下。ただし電動機等をつなぐ場合は 3<var>I<sub>M</sub></var>＋<var>I<sub>H</sub></var> 以下（2.5<var>I<sub>W</sub></var> を超えるときは 2.5<var>I<sub>W</sub></var> 以下）。電動機等がない幹線で <var>I<sub>W</sub></var> が100Aを超え、その値が遮断器の標準定格にないときは直近上位の定格を使える。分岐回路：電技解釈 第149条（149-1表・149-3表）。定格は一般的な配線用遮断器の標準定格から選んでいます。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+</main>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+<script src="assets/math.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { return document.querySelector('input[name="' + n + '"]:checked').value; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  var STD = [15, 20, 30, 40, 50, 60, 75, 100, 125, 150, 175, 200, 225, 250, 300, 350, 400, 500, 600, 700, 800];
+  var sub = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  // 電技解釈 149-1表・149-3表
+  var BR = { 15: ['直径1.6mm', '15A以下'], 20: ['直径1.6mm', '20A以下'], 30: ['直径2.6mm', '20A以上30A以下'], 40: ['断面積8mm²', '30A以上40A以下'], 50: ['断面積14mm²', '40A以上50A以下'] };
+  $('IB').innerHTML = [15, 20, 30, 40, 50].map(function (a) { return '<option value="' + a + '">' + a + 'A</option>'; }).join('');
+  $('IB').value = '20';
+
+  function show(mode) {
+    $('kind').hidden = mode !== 'branch';
+    document.querySelectorAll('.f[data-m]').forEach(function (el) { el.hidden = el.getAttribute('data-m') !== mode; });
+  }
+
+  function render() {
+    var mode = radio('mode'); show(mode); $('eq').classList.toggle('two', mode === 'main');
+    if (mode === 'branch') {
+      var a = +$('IB').value, fuse = radio('kind') === 'fuse', r = BR[a].slice();
+      if (a === 20 && fuse) r = ['直径2.0mm', '20A（20A未満の差込みプラグが入るものを除く）'];
+      $('eq').innerHTML = '<div class="tbl"><table><thead><tr><th>遮断器</th><th>電線の太さ</th><th>コンセント</th></tr></thead><tbody>' +
+        [15, 20, 30, 40, 50].map(function (x) { var b = BR[x]; if (x === 20 && fuse) b = ['直径2.0mm', '20A']; return '<tr' + (x === a ? ' class="on"' : '') + '><td>' + x + 'A</td><td>' + b[0] + '以上</td><td>' + b[1] + '</td></tr>'; }).join('') + '</tbody></table></div>';
+      $('legend').innerHTML = '<div><dt>表</dt><dd>電技解釈 第149条（149-1表・149-3表）' + (fuse ? '、ヒューズの場合' : '、配線用遮断器の場合') + '</dd></div>';
+      $('line').innerHTML = '<span class="big">' + a + 'A' + (fuse ? 'ヒューズ' : '配線用遮断器') + 'なら、電線は<b>' + r[0] + '</b>以上</span>';
+      $('sub').textContent = 'つなげるコンセントは定格' + r[1];
+      return;
+    }
+    var IM = num('IM') || 0, IH = num('IH') || 0, IWin = num('IW');
+    var motor = IM > IH, k = IM <= 50 ? 1.25 : 1.1;
+    var need = motor ? k * IM + IH : IM + IH;
+    $('eq').innerHTML = M.block(sub('I', 'W') + M.o('≧') + (motor ? M.n(k === 1.25 ? '1.25' : '1.1') + sub('I', 'M') : sub('I', 'M')) + M.o('+') + sub('I', 'H')) +
+      M.block(sub('I', 'B') + M.o('≦') + '<mrow><mo>min</mo><mo>(</mo>' + M.n('3') + sub('I', 'M') + M.o('+') + sub('I', 'H') + '<mo>,</mo>' + M.n('2.5') + sub('I', 'W') + '<mo>)</mo></mrow>');
+    $('legend').innerHTML = '<div><dt>I<sub>W</sub></dt><dd>電線の許容電流〔A〕</dd></div><div><dt>I<sub>M</sub></dt><dd>電動機等の定格電流の合計〔A〕</dd></div><div><dt>I<sub>H</sub></dt><dd>その他の機器の定格電流の合計〔A〕</dd></div><div><dt>I<sub>B</sub></dt><dd>過電流遮断器の定格電流〔A〕</dd></div><div><dt>係数</dt><dd>I<sub>M</sub>＞I<sub>H</sub> のとき、I<sub>M</sub>≦50Aなら1.25、50A超なら1.1</dd></div>';
+    if (!(IM + IH > 0)) { $('line').textContent = '定格電流を入れてください'; $('sub').textContent = ''; return; }
+    var IW = IWin > 0 ? IWin : need;
+    var short = IWin > 0 && IWin < need - 1e-9;
+    var lim = IM > 0 ? Math.min(3 * IM + IH, 2.5 * IW) : IW;
+    var pick = STD.filter(function (s) { return s <= lim + 1e-9; }).pop();
+    var up = false;
+    if (!(IM > 0) && IW > 100 && STD.indexOf(Math.round(lim)) < 0) { var nx = STD.filter(function (s) { return s > lim; })[0]; if (nx) { pick = nx; up = true; } }
+    var load = IM + IH, ok = pick && pick >= load;
+    var l1 = M.block(sub('I', 'W') + M.o('≧') + (motor ? M.n(k === 1.25 ? '1.25' : '1.1') + M.x + M.n(M.num(IM)) : M.n(M.num(IM))) + M.o('+') + M.n(M.num(IH)) + M.eq + M.nb(M.num(need)) + M.unit('A'));
+    var l2 = M.block(sub('I', 'B') + M.o('≦') + (IM > 0 ? '<mrow><mo>min</mo><mo>(</mo>' + M.n(M.num(3 * IM + IH)) + '<mo>,</mo>' + M.n(M.num(2.5 * IW)) + '<mo>)</mo></mrow>' : M.n(M.num(IW))) + M.eq + M.n(M.num(lim)) + M.unit('A'));
+    $('line').innerHTML = l1 + l2;
+    $('sub').textContent = short ? '使う電線の許容電流が ' + M.num(need) + 'A に足りません。電線を太くしてください' :
+      (pick ? '遮断器は ' + pick + 'A 以下の標準定格から選ぶ' + (up ? '（Iwが100A超のため直近上位）' : '') + (ok ? '' : '。負荷の合計 ' + M.num(load) + 'A より小さいので、電線を太くして選び直してください') : '標準定格に合うものがありません');
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+})();
+</script>
+</body>
+</html>

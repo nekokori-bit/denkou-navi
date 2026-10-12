@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>許容電流の計算（周囲温度・電流減少係数）｜でんこうナビ</title>
+<meta name="description" content="許容電流を、周囲温度による補正係数と、電線管に収めたときの電流減少係数（電技解釈第146条）で計算します。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/tool.css">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>許容電流</h1></div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend">
+      <div><dt>I</dt><dd>許容電流〔A〕</dd></div>
+      <div><dt>I₀</dt><dd>周囲温度30℃のときの許容電流〔A〕</dd></div>
+      <div><dt>T</dt><dd>絶縁体の最高許容温度〔℃〕（ビニル60、耐熱ビニル・ポリエチレン75、架橋ポリエチレン90）</dd></div>
+      <div><dt>θ</dt><dd>周囲温度〔℃〕（30℃以下は30）</dd></div>
+      <div><dt>k</dt><dd>電流減少係数（電線管などに収める場合）</dd></div>
+    </dl>
+    <form class="fields" onsubmit="return false" autocomplete="off">
+      <div class="f">
+        <label for="I0"><var>I₀</var>基準の許容電流</label>
+        <div class="in"><input id="I0" type="number" inputmode="decimal" step="any" value="35"><span class="u">A</span></div>
+        <select id="table" aria-label="電技解釈の表から入れる"></select>
+      </div>
+      <div class="f">
+        <label for="T"><var>T</var>最高許容温度</label>
+        <div class="in"><input id="T" type="number" inputmode="decimal" step="any" value="60"><span class="u">℃</span></div>
+        <select id="ins" aria-label="絶縁体から入れる">
+          <option value="">絶縁体から入れる</option>
+          <option value="60">ビニル（IV など）60℃</option>
+          <option value="75">耐熱ビニル・ポリエチレン（HIV・EM-IE など）75℃</option>
+          <option value="80">エチレンプロピレンゴム 80℃</option>
+          <option value="90">架橋ポリエチレン（EM-IC など）90℃</option>
+        </select>
+      </div>
+      <div class="f"><label for="th"><var>θ</var>周囲温度</label><div class="in"><input id="th" type="number" inputmode="decimal" step="any" value="30"><span class="u">℃</span></div></div>
+      <div class="f">
+        <label for="n">同一管内の電線数</label>
+        <div class="in"><input id="n" type="number" inputmode="numeric" step="1" min="0" value="3"><span class="u">本</span></div>
+        <span class="hint">管に収めないときは0</span>
+      </div>
+      <div class="f">
+        <label for="k"><var>k</var>電流減少係数</label>
+        <div class="in"><input id="k" type="number" inputmode="decimal" step="any" value="0.70"></div>
+        <span class="hint" id="khint"></span>
+      </div>
+    </form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>電技解釈 第146条（146-3表の許容電流補正係数、146-4表の電流減少係数）による。電流減少係数：3本以下0.70、4本0.63、5・6本0.56、7〜15本0.49、16〜40本0.43、41〜60本0.39、61本以上0.34。中性線・接地線・制御回路の電線は本数に含めない。表示値は小数点以下1位を7捨8入。メーカーの許容電流表が30℃以外を基準にしている場合は、その資料の補正方法に従ってください。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+</main>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+
+
+<script src="assets/math.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  // 電技解釈 146-1表（単線）・146-2表（より線）軟銅線又は硬銅線
+  var TABLE = [['単線 1.6mm', 27], ['単線 2.0mm', 35], ['単線 2.6mm', 48], ['単線 3.2mm', 62], ['単線 4.0mm', 81], ['単線 5.0mm', 107],
+    ['より線 2mm²', 27], ['より線 3.5mm²', 37], ['より線 5.5mm²', 49], ['より線 8mm²', 61], ['より線 14mm²', 88], ['より線 22mm²', 115],
+    ['より線 38mm²', 162], ['より線 60mm²', 217], ['より線 100mm²', 298], ['より線 150mm²', 395], ['より線 200mm²', 469],
+    ['より線 250mm²', 556], ['より線 325mm²', 650], ['より線 400mm²', 745], ['より線 500mm²', 842]];
+  $('table').innerHTML = '<option value="">電技解釈の表から入れる</option>' + TABLE.map(function (r, i) { return '<option value="' + i + '">' + r[0] + '：' + r[1] + 'A</option>'; }).join('');
+  function reduction(n) {
+    if (!(n > 0)) return [1, '管に収めない'];
+    if (n <= 3) return [0.70, '3本以下']; if (n === 4) return [0.63, '4本']; if (n <= 6) return [0.56, '5・6本'];
+    if (n <= 15) return [0.49, '7〜15本']; if (n <= 40) return [0.43, '16〜40本']; if (n <= 60) return [0.39, '41〜60本'];
+    return [0.34, '61本以上'];
+  }
+  function round78(x) { var t = Math.floor(Math.round(x * 1000) / 100) / 10, i = Math.floor(t), d = Math.round((t - i) * 10); return d >= 8 ? i + 1 : i; }
+  var kManual = false;
+
+  var T0 = M.i('θ');
+  $('eq').innerHTML = M.block(M.i('I') + M.eq + M.sub('I', '0') + M.x + M.sqrt(M.frac(M.i('T') + M.o('−') + T0, M.n('30'))) + M.x + M.i('k') + M.unit('A'));
+
+  function render() {
+    var red = reduction(Math.round(num('n')));
+    if (!kManual) $('k').value = red[0].toFixed(2);
+    $('khint').textContent = kManual ? '直接入力の値で計算中（本数を変えると自動に戻ります）' : red[1] + ' → ' + red[0].toFixed(2);
+    var I0 = num('I0'), T = num('T'), th = num('th'), k = num('k');
+    if (![I0, T, th, k].every(isFinite)) { $('line').textContent = '数値を入れてください'; $('sub').textContent = ''; return; }
+    var q = Math.max(30, th);
+    var c = q < T ? Math.sqrt((T - q) / 30) : 0;
+    var raw = I0 * c * k;
+    $('line').innerHTML = M.block(M.i('I') + M.eq + M.n(M.num(I0)) + M.x + M.sqrt(M.frac(M.n(M.num(T)) + M.o('−') + M.n(M.num(q)), M.n('30'))) + M.x + M.n(k.toFixed(2)) + M.approx + M.nb(String(round78(raw))) + M.unit('A'));
+    $('sub').textContent = '計算値 ' + raw.toFixed(2) + 'A（補正係数 ' + c.toFixed(3) + '）を7捨8入' + (c === 0 ? '。周囲温度が最高許容温度以上です' : '');
+  }
+  $('table').addEventListener('change', function () { if (this.value !== '') { $('I0').value = TABLE[+this.value][1]; render(); } });
+  $('ins').addEventListener('change', function () { if (this.value !== '') { $('T').value = this.value; render(); } });
+  $('k').addEventListener('input', function () { kManual = true; render(); });
+  $('n').addEventListener('input', function () { kManual = false; render(); });
+  ['I0', 'T', 'th'].forEach(function (id) { $(id).addEventListener('input', render); });
+  render();
+})();
+</script>
+</body>
+</html>

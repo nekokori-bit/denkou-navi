@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電線管の太さ選定（占積率）｜でんこうナビ</title>
+<meta name="description" content="IV電線を電線管に収めるときの太さを、占積率（32%・48%）で計算します。薄鋼電線管・厚鋼電線管に対応。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/tool.css">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>電線管の太さ（占積率）</h1></div>
+    <div class="opts">
+      <div class="grp" role="radiogroup" aria-label="電線管の種類">
+        <label><input type="radio" name="pipe" value="C" checked><span>薄鋼電線管</span></label>
+        <label><input type="radio" name="pipe" value="G"><span>厚鋼電線管</span></label>
+      </div>
+      <div class="grp" role="radiogroup" aria-label="占積率の上限">
+        <label><input type="radio" name="lim" value="32" checked><span>32%</span></label>
+        <label><input type="radio" name="lim" value="48"><span>48%</span></label>
+      </div>
+    </div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend">
+      <div><dt>D</dt><dd>電線の仕上外径〔mm〕</dd></div>
+      <div><dt>n</dt><dd>本数</dd></div>
+      <div><dt>d</dt><dd>電線管の内径〔mm〕</dd></div>
+      <div><dt>上限</dt><dd>32%（48%は同じ太さの電線で屈曲が少ない場合）</dd></div>
+    </dl>
+    <form class="fields" id="rows" onsubmit="return false" autocomplete="off"></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>内線規程 3110-5：電線の被覆絶縁物を含む断面積の総和が、管の内断面積の32%以下となるように選ぶ（太さの異なる電線を収める場合など）。同じ太さの電線で、管の屈曲が少なく引き入れ・引き替えが容易な場合は48%以下。電線の仕上外径はIV（JIS C 3307）の約値（住電日立ケーブル IV LF 仕様書）、断面積は π/4 × D² で計算。電線管の内径は外径−2×厚さ（薄鋼：JIS C 8305 の寸法、厚鋼：同）。細い電線の補正係数（内線規程 3110-8）は含めていないので、1.6〜2.0mmなどの細い電線を多く収める場合は内線規程の表でも確認してください。ケーブルは対象外（管の内径をケーブル仕上外径の1.5倍以上とする）。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+</main>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+
+
+<script src="assets/math.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { return document.querySelector('input[name="' + n + '"]:checked').value; }
+  // IV 仕上外径（約mm）住電日立ケーブル IV LF 仕様書
+  var WIRES = [['単線 1.6mm', 3.2], ['単線 2.0mm', 3.6], ['単線 2.6mm', 4.6], ['単線 3.2mm', 5.6], ['単線 4.0mm', 6.8], ['単線 5.0mm', 8.2],
+    ['より線 2mm²', 3.4], ['より線 3.5mm²', 4.0], ['より線 5.5mm²', 5.0], ['より線 8mm²', 6.0], ['より線 14mm²', 7.6], ['より線 22mm²', 9.2],
+    ['より線 38mm²', 11.5], ['より線 60mm²', 14.0], ['より線 100mm²', 17.0], ['より線 150mm²', 21], ['より線 200mm²', 23],
+    ['より線 250mm²', 26], ['より線 325mm²', 29]];
+  // 電線管 [呼び, 外径, 厚さ]
+  var PIPES = {
+    C: [['C19', 19.1, 1.6], ['C25', 25.4, 1.6], ['C31', 31.8, 1.6], ['C39', 38.1, 1.6], ['C51', 50.8, 1.6], ['C63', 63.5, 2.0], ['C75', 76.2, 2.0]],
+    G: [['G16', 21.0, 2.3], ['G22', 26.5, 2.3], ['G28', 33.3, 2.5], ['G36', 41.9, 2.5], ['G42', 47.3, 2.5], ['G54', 59.6, 2.8], ['G70', 75.2, 2.8], ['G82', 87.9, 2.8], ['G92', 101.6, 4.2], ['G104', 114.3, 4.5]]
+  };
+  var DEF = [[8, 3], [-1, 0], [-1, 0]];   // 初期値：5.5mm² を3本
+  var opts = '<option value="-1">使わない</option>' + WIRES.map(function (w, i) { return '<option value="' + i + '">' + w[0] + '（' + w[1] + 'mm）</option>'; }).join('');
+  $('rows').innerHTML = DEF.map(function (d, k) {
+    return '<div class="f"><label for="w' + k + '">電線 ' + (k + 1) + '</label><select id="w' + k + '">' + opts + '</select>' +
+      '<div class="in"><input id="n' + k + '" type="number" inputmode="numeric" step="1" min="0" value="' + d[1] + '"><span class="u">本</span></div></div>';
+  }).join('');
+  DEF.forEach(function (d, k) { $('w' + k).value = d[0]; });
+
+  var A = function (D) { return Math.PI / 4 * D * D; };
+  var area = M.frac(M.n('π'), M.n('4'));
+
+  function render() {
+    var lim = +radio('lim') / 100, pipes = PIPES[radio('pipe')];
+    $('eq').innerHTML = M.block('<mtext>占積率</mtext>' + M.eq + M.frac('<mo>Σ</mo>' + M.i('n') + M.x + '<msup><mi>D</mi><mn>2</mn></msup>', '<msup><mi>d</mi><mn>2</mn></msup>') + M.x + M.n('100') + M.unit('%'));
+    var sum = 0, cnt = 0, parts = [], terms = [];
+    for (var k = 0; k < DEF.length; k++) {
+      var wi = +$('w' + k).value, n = Math.round(parseFloat($('n' + k).value));
+      if (wi < 0 || !(n > 0)) continue;
+      sum += n * A(WIRES[wi][1]); cnt += n; terms.push(M.n(n) + M.x + '<msup><mn>' + WIRES[wi][1].toFixed(1) + '</mn><mn>2</mn></msup>'); parts.push(WIRES[wi][0].replace(/^(単線|より線) /, '') + '×' + n);
+    }
+    if (!cnt) { $('line').textContent = '電線と本数を入れてください'; $('sub').textContent = ''; return; }
+    var pick = null, prev = null;
+    for (var i = 0; i < pipes.length; i++) {
+      var d = pipes[i][1] - 2 * pipes[i][2], r = sum / A(d);
+      if (r <= lim) { pick = [pipes[i][0], d, r]; break; }
+      prev = [pipes[i][0], d, r];
+    }
+    if (!pick) { $('line').textContent = '一覧の最大の管でも ' + Math.round(lim * 100) + '% を超えます'; $('sub').textContent = '電線の断面積の合計 ' + sum.toFixed(1) + 'mm²'; return; }
+    $('line').innerHTML = M.block('<mtext>'+pick[0]+'</mtext>' + '<mspace width="0.4em"></mspace>' + M.frac(terms.join(M.o('+')), '<msup><mn>' + pick[1].toFixed(1) + '</mn><mn>2</mn></msup>') + M.x + M.n('100') + M.approx + M.nb((pick[2] * 100).toFixed(1)) + M.unit('%'));
+    $('sub').textContent = parts.join('・') + '（計' + cnt + '本）→ 内径' + pick[1].toFixed(1) + 'mm' + (prev ? '。ひとつ細い' + prev[0] + 'は' + (prev[2] * 100).toFixed(1) + '%' : '');
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+})();
+</script>
+</body>
+</html>

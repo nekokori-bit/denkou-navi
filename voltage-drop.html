@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電圧降下・電線の断面積の計算｜でんこうナビ</title>
+<meta name="description" content="電圧降下と電線の断面積を、簡易計算式（35.6・30.8・17.8）で計算します。こう長・電流・断面積を入れるだけ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/tool.css">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>電圧降下・電線の断面積</h1></div>
+    <div class="opts">
+      <div class="grp" role="radiogroup" aria-label="求めるもの">
+        <label><input type="radio" name="mode" value="e" checked><span>電圧降下</span></label>
+        <label><input type="radio" name="mode" value="a"><span>断面積</span></label>
+      </div>
+      <div class="grp" role="radiogroup" aria-label="電気方式">
+        <label><input type="radio" name="sys" value="2" checked><span>単相2線・直流2線</span></label>
+        <label><input type="radio" name="sys" value="3"><span>三相3線</span></label>
+        <label><input type="radio" name="sys" value="4"><span>単相3線・三相4線</span></label>
+      </div>
+    </div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off">
+      <div class="f"><label for="L"><var>L</var>こう長</label><div class="in"><input id="L" type="number" inputmode="decimal" step="any" value="30"><span class="u">m</span></div></div>
+      <div class="f"><label for="I"><var>I</var>負荷電流</label><div class="in"><input id="I" type="number" inputmode="decimal" step="any" value="20"><span class="u">A</span></div></div>
+      <div class="f" id="fA"><label for="A"><var>A</var>断面積</label><div class="in"><input id="A" type="number" inputmode="decimal" step="any" value="5.5"><span class="u">mm²</span></div></div>
+      <div class="f" id="fE" hidden><label for="E"><var>e</var>許せる電圧降下</label><div class="in"><input id="E" type="number" inputmode="decimal" step="any" value="2"><span class="u">V</span></div></div>
+      <div class="f"><label for="V">電圧（降下率用）</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="100"><span class="u">V</span></div></div>
+    </form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>導体は導電率97%の軟銅線（JIS C 3001）、抵抗率17.8 Ω・mm²/km。係数は単相2線式・直流2線式35.6（線間）、三相3線式30.8（線間）、単相3線式・三相4線式17.8（外側線または各相の1線と中性線との間）。リアクタンスと力率は考えない簡易式です。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+</main>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+
+
+<script src="assets/math.js"></script>
+<script>
+(function () {
+  'use strict';
+  var K = { '2': '35.6', '3': '30.8', '4': '17.8' };
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { return document.querySelector('input[name="' + n + '"]:checked').value; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  var SIZES = [2, 3.5, 5.5, 8, 14, 22, 38, 60, 100, 150, 200, 250, 325];
+
+  function render() {
+    var mode = radio('mode'), sys = radio('sys'), k = K[sys];
+    $('fA').hidden = mode !== 'e'; $('fE').hidden = mode !== 'a';
+    var top = M.n(k) + M.x + M.i('L') + M.x + M.i('I');
+    $('eq').innerHTML = M.block((mode === 'e' ? M.i('e') : M.i('A')) + M.eq + M.frac(top, M.n('1000') + M.x + (mode === 'e' ? M.i('A') : M.i('e'))) + M.unit(mode === 'e' ? 'V' : 'mm²'));
+    $('legend').innerHTML = '<div><dt>e</dt><dd>' + (sys === '4' ? '外側線または各相の1線と中性線との間の電圧降下' : '線間の電圧降下') + '〔V〕</dd></div><div><dt>L</dt><dd>電線のこう長〔m〕</dd></div><div><dt>I</dt><dd>負荷電流〔A〕</dd></div><div><dt>A</dt><dd>電線の断面積〔mm²〕</dd></div>';
+
+    var L = num('L'), I = num('I'), V = num('V');
+    var sTop = M.n(k) + M.x + M.n(M.num(L)) + M.x + M.n(M.num(I));
+    if (!(isFinite(L) && isFinite(I))) { $('line').textContent = '数値を入れてください'; $('sub').textContent = ''; return; }
+    if (mode === 'e') {
+      var A = num('A');
+      if (!(A > 0)) { $('line').textContent = '断面積を入れてください'; $('sub').textContent = ''; return; }
+      var e = parseFloat(k) * L * I / (1000 * A);
+      $('line').innerHTML = M.block(M.i('e') + M.eq + M.frac(sTop, M.n('1000') + M.x + M.n(M.num(A))) + M.approx + M.nb(e.toFixed(2)) + M.unit('V'));
+      $('sub').textContent = V > 0 ? '電圧降下率 ' + (e / V * 100).toFixed(2) + '%' : '';
+    } else {
+      var E = num('E');
+      if (!(E > 0)) { $('line').textContent = '許せる電圧降下を入れてください'; $('sub').textContent = ''; return; }
+      var a = parseFloat(k) * L * I / (1000 * E);
+      $('line').innerHTML = M.block(M.i('A') + M.eq + M.frac(sTop, M.n('1000') + M.x + M.n(M.num(E))) + M.approx + M.nb(a.toFixed(2)) + M.unit('mm²'));
+      var next = SIZES.filter(function (s) { return s >= a; })[0];
+      $('sub').textContent = next ? 'より線なら ' + next + 'mm² 以上（電圧降下 ' + (parseFloat(k) * L * I / (1000 * next)).toFixed(2) + 'V' + (V > 0 ? '・' + (parseFloat(k) * L * I / (1000 * next) / V * 100).toFixed(2) + '%' : '') + '）' : '325mm²を超えます';
+    }
+  }
+  document.querySelectorAll('input').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+})();
+</script>
+</body>
+</html>
