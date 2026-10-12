@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>需要率・不等率から変圧器容量を計算｜でんこうナビ</title>
+<meta name="description" content="設備容量・需要率・不等率・力率から最大需要電力と必要な変圧器容量を計算します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/juyouritsu">
+<meta property="og:title" content="需要率・不等率から変圧器容量を計算｜でんこうナビ">
+<meta property="og:description" content="設備容量・需要率・不等率・力率から最大需要電力と必要な変圧器容量を計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/juyouritsu">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>需要率と変圧器容量</h1></div>
+    <div class="opts"><div class="grp" role="radiogroup" aria-label="変圧器"><label><input type="radio" name="sys" value="3" checked><span>三相</span></label><label><input type="radio" name="sys" value="1"><span>単相</span></label></div></div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"><div><dt>P<sub>m</sub></dt><dd>最大需要電力〔kW〕</dd></div><div><dt>需要率</dt><dd>最大需要電力 ÷ 設備容量</dd></div><div><dt>不等率</dt><dd>各負荷の最大の合計 ÷ 合成した最大</dd></div><div><dt>cosθ</dt><dd>力率</dd></div></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P"><label for="P">設備容量の合計</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="120"><span class="u">kW</span></div></div><div class="f" id="f_d"><label for="d">需要率</label><div class="in"><input id="d" type="number" inputmode="decimal" step="any" value="60"><span class="u">%</span></div></div><div class="f" id="f_u"><label for="u">不等率</label><div class="in"><input id="u" type="number" inputmode="decimal" step="any" value="1.2"></div><span class="hint">1以上。わからなければ1</span></div><div class="f" id="f_pf"><label for="pf"><var>cosθ</var>力率</label><div class="in"><input id="pf" type="number" inputmode="decimal" step="any" value="0.85"></div></div></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>最大需要電力＝設備容量×需要率÷不等率、変圧器容量＝最大需要電力÷力率。変圧器は一般的な標準容量から選んでいます。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-thinking.png" alt=""></div></section>
+</main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>需要率と不等率</h2>
+<p>つないだ機器が全部同時に最大で動くことは、ふつうありません。「需要率」は、設備容量のうち実際に最大でどれだけ使うかの割合です。「不等率」は、いくつかの負荷の最大が同じ時間に重ならない度合いで、1以上の値になります。</p>
+<h2>変圧器容量の決め方</h2>
+<p>設備容量に需要率を掛け、不等率で割ると、全体の最大需要電力〔kW〕が出ます。それを力率で割った値〔kVA〕以上の変圧器を選びます。将来の増設を見込んで、少し余裕を持たせるのが一般的です。</p>
+<h2>負荷率について</h2>
+<p>平均需要電力 ÷ 最大需要電力を「負荷率」といいます。負荷率が低い設備は、最大のときだけ大きな容量が必要になるので、デマンド管理で最大を抑えると契約電力を下げられることがあります。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li class="here"><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+<script src="assets/math.js?v=4"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { var e = document.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : null; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  function say(t, s) { $('line').textContent = t; $('sub').textContent = s || ''; }
+  var S = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  var Sn = function (b, s) { return '<msub><mi>' + b + '</mi><mn>' + s + '</mn></msub>'; };
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+  function n(x) { return M.n(M.num(x)); }
+
+  var STD = { 3: [20, 30, 50, 75, 100, 150, 200, 300, 500, 750, 1000], 1: [10, 20, 30, 50, 75, 100, 150, 200, 300, 500] };
+  $('eq').classList.add('two');
+  $('eq').innerHTML = M.block(S('P', 'm') + M.eq + M.frac('<mtext>設備容量</mtext>' + M.x + '<mtext>需要率</mtext>', '<mtext>不等率</mtext>') + M.unit('kW')) +
+    M.block('<mtext>変圧器容量</mtext>' + M.o('≧') + M.frac(S('P', 'm'), '<mi>cos</mi><mo>&#8289;</mo><mi>θ</mi>') + M.unit('kVA'));
+  function render() {
+    var P = num('P'), d = num('d') / 100, u = num('u'), pf = num('pf');
+    if (!(P > 0 && d > 0 && u >= 1 && pf > 0 && pf <= 1)) return say('数値を入れてください（不等率は1以上、力率は0〜1）');
+    var Pm = P * d / u, kva = Pm / pf, pick = STD[radio('sys')].filter(function (s) { return s >= kva; })[0];
+    $('line').innerHTML = M.block(S('P', 'm') + M.eq + M.frac(n(P) + M.x + n(d), n(u)) + M.eq + M.nb(Pm.toFixed(1)) + M.unit('kW')) +
+      M.block(M.frac(n(Pm.toFixed(1)), n(pf)) + M.eq + M.nb(kva.toFixed(1)) + M.unit('kVA'));
+    $('sub').textContent = pick ? '標準容量なら ' + pick + 'kVA 以上' : '一覧の最大容量を超えます。変圧器を分けることも考えます';
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>低圧電路の絶縁抵抗の基準値（電技省令第58条）｜でんこうナビ</title>
+<meta name="description" content="低圧電路の使用電圧と対地電圧から、絶縁抵抗の基準値（電技省令第58条）を表示します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/zetsuen">
+<meta property="og:title" content="低圧電路の絶縁抵抗の基準値（電技省令第58条）｜でんこうナビ">
+<meta property="og:description" content="低圧電路の使用電圧と対地電圧から、絶縁抵抗の基準値（電技省令第58条）を表示します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/zetsuen">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>絶縁抵抗の基準値</h1></div>
+    
+    <div class="eq" id="eq"><div class="tbl"><table><thead><tr><th>電路の使用電圧の区分</th><th>絶縁抵抗値</th></tr></thead><tbody><tr id="r1"><td>300V以下・対地電圧150V以下</td><td>0.1MΩ以上</td></tr><tr id="r2"><td>300V以下・その他</td><td>0.2MΩ以上</td></tr><tr id="r3"><td>300Vを超えるもの</td><td>0.4MΩ以上</td></tr></tbody></table></div></div>
+    <dl class="legend" id="legend"><div><dt>使用電圧</dt><dd>電路の使用電圧〔V〕</dd></div><div><dt>対地電圧</dt><dd>大地との間の電圧〔V〕</dd></div></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_V"><label for="V">使用電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="200"><span class="u">V</span></div></div><div class="f" id="f_Ve"><label for="Ve">対地電圧</label><div class="in"><input id="Ve" type="number" inputmode="decimal" step="any" value="100"><span class="u">V</span></div><span class="hint">単相3線100/200Vなら100、三相3線200Vなら200</span></div><div class="f" id="f_m"><label for="m">測定値（任意）</label><div class="in"><input id="m" type="number" inputmode="decimal" step="any" value=""><span class="u">MΩ</span></div></div></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>電気設備に関する技術基準を定める省令 第58条。電路の電線相互間・電路と大地との間の絶縁抵抗は、開閉器・過電流遮断器で区切れる電路ごとに、表の値以上。絶縁抵抗の測定が難しい場合は、漏えい電流が1mA以下であればよい（電技解釈 第14条）。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-cross.png" alt=""></div></section>
+</main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>絶縁抵抗の基準</h2>
+<p>低圧の電路は、電線どうしの間と、電線と大地の間の絶縁抵抗が、電気設備技術基準（省令第58条）で決められた値以上でなければなりません。区分は、使用電圧が300V以下か超えるか、300V以下ならさらに対地電圧が150V以下かどうかで分かれます。</p>
+<h2>よくある例</h2>
+<p>住宅の単相3線式100/200Vは、使用電圧200Vですが対地電圧は100Vなので、0.1MΩ以上です。工場の三相3線式200Vは対地電圧も200Vになるので、0.2MΩ以上です。400V級は0.4MΩ以上です。</p>
+<h2>測定できないとき</h2>
+<p>停電できないなどで絶縁抵抗を測れない場合は、漏えい電流が1mA以下であればよいとされています（電技解釈第14条）。クランプ式の漏れ電流計で確認します。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li class="here"><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+<script src="assets/math.js?v=4"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { var e = document.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : null; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  function say(t, s) { $('line').textContent = t; $('sub').textContent = s || ''; }
+  var S = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  var Sn = function (b, s) { return '<msub><mi>' + b + '</mi><mn>' + s + '</mn></msub>'; };
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+  function n(x) { return M.n(M.num(x)); }
+
+  function render() {
+    var V = num('V'), Ve = num('Ve'), m = num('m');
+    ['r1', 'r2', 'r3'].forEach(function (r) { $(r).className = ''; });
+    if (!(V > 0 && Ve > 0)) return say('使用電圧と対地電圧を入れてください');
+    var k = V > 300 ? 3 : (Ve <= 150 ? 1 : 2), std = [0, 0.1, 0.2, 0.4][k];
+    $('r' + k).className = 'on';
+    $('line').innerHTML = '<span class="big">基準値は <b>' + std + 'MΩ</b> 以上</span>';
+    $('sub').textContent = m > 0 ? '測定値 ' + m + 'MΩ は基準値の ' + (m / std).toFixed(1) + '倍' : '開閉器や遮断器で区切れる電路ごとに測る';
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+
+})();
+</script>
+</body>
+</html>

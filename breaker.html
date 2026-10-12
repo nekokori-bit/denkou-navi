@@ -5,11 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ブレーカー選定（幹線・分岐回路）｜でんこうナビ</title>
 <meta name="description" content="低圧幹線の電線の許容電流と過電流遮断器の定格（電技解釈第148条）、分岐回路の電線の太さとコンセント（第149条）を計算します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/breaker">
+<meta property="og:title" content="ブレーカー選定（幹線・分岐回路）｜でんこうナビ">
+<meta property="og:description" content="低圧幹線の電線の許容電流と過電流遮断器の定格（電技解釈第148条）、分岐回路の電線の太さとコンセント（第149条）を計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/breaker">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3">
-<link rel="stylesheet" href="assets/tool.css?v=3">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
 </head>
 <body>
 
@@ -37,12 +42,27 @@
     </form>
     <details class="basis-in"><summary>計算の根拠</summary><p>幹線：電技解釈 第148条。電線の許容電流 <var>I<sub>W</sub></var> は負荷の定格電流の合計以上。電動機等の合計 <var>I<sub>M</sub></var> がその他の合計 <var>I<sub>H</sub></var> より大きいときは、<var>I<sub>M</sub></var> が50A以下なら1.25倍、50Aを超えるなら1.1倍した値に <var>I<sub>H</sub></var> を加えた値以上（需要率・力率が明らかな場合は修正できる）。過電流遮断器の定格電流は <var>I<sub>W</sub></var> 以下。ただし電動機等をつなぐ場合は 3<var>I<sub>M</sub></var>＋<var>I<sub>H</sub></var> 以下（2.5<var>I<sub>W</sub></var> を超えるときは 2.5<var>I<sub>W</sub></var> 以下）。電動機等がない幹線で <var>I<sub>W</sub></var> が100Aを超え、その値が遮断器の標準定格にないときは直近上位の定格を使える。分岐回路：電技解釈 第149条（149-1表・149-3表）。定格は一般的な配線用遮断器の標準定格から選んでいます。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-cross.png" alt=""></div></section>
 </main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>幹線のブレーカー</h2>
+<p>幹線の電線は、つながる負荷の定格電流の合計以上の許容電流が必要です。モーターなど始動電流が大きい機器が多いときは、その合計を1.25倍（50Aを超えると1.1倍）して見込みます。ブレーカーの定格は、電線を守れるように電線の許容電流以下が基本ですが、モーターがあるときは始動で落ちないよう、3倍のモーター電流＋その他の電流まで（ただし電線の許容電流の2.5倍まで）大きくできます（電技解釈第148条）。</p>
+<h2>分岐回路のブレーカー</h2>
+<p>分岐回路は、ブレーカーの定格ごとに、使う電線の最小の太さと、つないでよいコンセントの定格が決まっています（電技解釈第149条）。家庭でよく使う20Aの配線用遮断器なら、電線は1.6mm以上、コンセントは20A以下です。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li class="here"><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=3"></script>
+<script src="assets/math.js?v=4"></script>
 <script>
+
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };

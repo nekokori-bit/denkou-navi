@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>力率改善コンデンサの容量計算｜でんこうナビ</title>
+<meta name="description" content="負荷の有効電力と、改善前・改善後の力率から、必要なコンデンサ容量〔kvar〕を計算します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/rikiritsu">
+<meta property="og:title" content="力率改善コンデンサの容量計算｜でんこうナビ">
+<meta property="og:description" content="負荷の有効電力と、改善前・改善後の力率から、必要なコンデンサ容量〔kvar〕を計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/rikiritsu">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>力率改善コンデンサ</h1></div>
+    
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"><div><dt>Q<sub>C</sub></dt><dd>必要なコンデンサ容量〔kvar〕</dd></div><div><dt>P</dt><dd>有効電力〔kW〕</dd></div><div><dt>cosθ₁</dt><dd>改善前の力率</dd></div><div><dt>cosθ₂</dt><dd>改善後の力率</dd></div></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P"><label for="P"><var>P</var>有効電力</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="100"><span class="u">kW</span></div></div><div class="f" id="f_c1"><label for="c1"><var>cosθ₁</var>改善前の力率</label><div class="in"><input id="c1" type="number" inputmode="decimal" step="any" value="0.8"></div></div><div class="f" id="f_c2"><label for="c2"><var>cosθ₂</var>改善後の力率</label><div class="in"><input id="c2" type="number" inputmode="decimal" step="any" value="0.95"></div></div></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>Q＝P(tanθ₁−tanθ₂)、tanθ＝√(1−cos²θ)/cosθ。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-thumbs_up.png" alt=""></div></section>
+</main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>力率改善とは</h2>
+<p>モーターなどの負荷は、仕事をしない「無効電力」も一緒に流しています。コンデンサをつないで無効電力を打ち消すと、同じ仕事をするのに必要な電流（皮相電力）が小さくなります。これが力率改善です。</p>
+<h2>計算のしかた</h2>
+<p>力率を角度 θ で表すと、無効電力は 有効電力 × tanθ です。改善前と改善後の tanθ の差に有効電力を掛けた分が、コンデンサで打ち消す量になります。たとえば100kWの負荷を力率0.8から0.95に上げるには、約42kvarが必要です。</p>
+<h2>注意すること</h2>
+<p>市販のコンデンサは決まった容量ごとにしか選べないので、計算値に近い標準容量を選びます。軽負荷のときに進み力率になりすぎないよう、自動力率調整を使うこともあります。高圧受電では基本料金の力率割引にも関わります。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li class="here"><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+<script src="assets/math.js?v=4"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { var e = document.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : null; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  function say(t, s) { $('line').textContent = t; $('sub').textContent = s || ''; }
+  var S = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  var Sn = function (b, s) { return '<msub><mi>' + b + '</mi><mn>' + s + '</mn></msub>'; };
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+  function n(x) { return M.n(M.num(x)); }
+
+  var TAN = function (s) { return '<mi>tan</mi><mo>&#8289;</mo>' + Sn('θ', s); };
+  $('eq').innerHTML = M.block(S('Q', 'C') + M.eq + M.i('P') + M.paren(TAN(1) + M.o('−') + TAN(2)) + M.unit('kvar')) +
+    M.block('<mi>tan</mi><mo>&#8289;</mo><mi>θ</mi>' + M.eq + M.frac(M.sqrt(M.n('1') + M.o('−') + '<msup><mrow><mi>cos</mi><mo>&#8289;</mo><mi>θ</mi></mrow><mn>2</mn></msup>'), '<mi>cos</mi><mo>&#8289;</mo><mi>θ</mi>'));
+  $('eq').classList.add('two');
+  function tn(c) { return Math.sqrt(1 - c * c) / c; }
+  function render() {
+    var P = num('P'), c1 = num('c1'), c2 = num('c2');
+    if (!(P > 0 && c1 > 0 && c1 <= 1 && c2 > 0 && c2 <= 1)) return say('有効電力と力率（0〜1）を入れてください');
+    if (c2 <= c1) return say('改善後の力率は、改善前より大きくしてください');
+    var t1 = tn(c1), t2 = tn(c2), q = P * (t1 - t2);
+    $('line').innerHTML = M.block(S('Q', 'C') + M.eq + n(P) + M.paren(M.n(t1.toFixed(3)) + M.o('−') + M.n(t2.toFixed(3))) + M.approx + M.nb(q.toFixed(1)) + M.unit('kvar'));
+    $('sub').textContent = '皮相電力 ' + (P / c1).toFixed(1) + 'kVA → ' + (P / c2).toFixed(1) + 'kVA';
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+
+})();
+</script>
+</body>
+</html>

@@ -5,11 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>電力・電流の換算（単相・三相）｜でんこうナビ</title>
 <meta name="description" content="消費電力（kW）から電流（A）を、電流から電力を、単相・三相の式で計算します。力率にも対応。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/denryoku">
+<meta property="og:title" content="電力・電流の換算（単相・三相）｜でんこうナビ">
+<meta property="og:description" content="消費電力（kW）から電流（A）を、電流から電力を、単相・三相の式で計算します。力率にも対応。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/denryoku">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3">
-<link rel="stylesheet" href="assets/tool.css?v=3">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
 </head>
 <body>
 
@@ -39,14 +44,29 @@
     </form>
     <details class="basis-in"><summary>計算の根拠</summary><p>単相：<var>P</var> ＝ <var>V</var> × <var>I</var> × cosφ ÷ 1000、三相：<var>P</var> ＝ √3 × <var>V</var> × <var>I</var> × cosφ ÷ 1000。皮相電力（kVA）は力率を1として同じ式で求めた値です。モーターの場合、銘板の出力（kW）は軸出力なので、効率も考える必要があります。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-wave.png" alt=""></div></section>
 </main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>電力と電流の関係</h2>
+<p>単相では 電力＝電圧×電流×力率、三相では 電力＝√3×電圧×電流×力率 です。このページは、そのどちらかを求める形に並べ替えて計算します。</p>
+<h2>力率について</h2>
+<p>電熱器や白熱灯などの抵抗負荷は力率1ですが、モーターは0.8前後、インバーター機器はさらに変わります。銘板やカタログに記載があればその値を使ってください。わからないときに1で計算すると、電流を少なめに見積もってしまう点に注意します。</p>
+<h2>モーターの注意</h2>
+<p>モーターの銘板のkWは軸出力（機械として出せる力）なので、電気として使う電力は効率の分だけ大きくなります。銘板に定格電流が書いてあれば、それを優先して使ってください。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li class="here"><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-
-
-<script src="assets/math.js?v=3"></script>
+<script src="assets/math.js?v=4"></script>
 <script>
+
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };

@@ -5,11 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>許容電流の計算（周囲温度・電流減少係数）｜でんこうナビ</title>
 <meta name="description" content="許容電流を、周囲温度による補正係数と、電線管に収めたときの電流減少係数（電技解釈第146条）で計算します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/kyoyou">
+<meta property="og:title" content="許容電流の計算（周囲温度・電流減少係数）｜でんこうナビ">
+<meta property="og:description" content="許容電流を、周囲温度による補正係数と、電線管に収めたときの電流減少係数（電技解釈第146条）で計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/kyoyou">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3">
-<link rel="stylesheet" href="assets/tool.css?v=3">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
 </head>
 <body>
 
@@ -56,14 +61,29 @@
     </form>
     <details class="basis-in"><summary>計算の根拠</summary><p>電技解釈 第146条（146-3表の許容電流補正係数、146-4表の電流減少係数）による。電流減少係数：3本以下0.70、4本0.63、5・6本0.56、7〜15本0.49、16〜40本0.43、41〜60本0.39、61本以上0.34。中性線・接地線・制御回路の電線は本数に含めない。表示値は小数点以下1位を7捨8入。メーカーの許容電流表が30℃以外を基準にしている場合は、その資料の補正方法に従ってください。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-thumbs_up.png" alt=""></div></section>
 </main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>許容電流とは</h2>
+<p>電線に流し続けても、絶縁体が傷まない上限の電流です。電技解釈第146条の表に、周囲温度30℃のときの値が電線の太さごとに決められています。</p>
+<h2>補正係数と電流減少係数</h2>
+<p>周囲温度が高いと電線が冷えにくくなるので、許容電流は小さくなります。その割合が √((T−θ)/30) の補正係数です。さらに、電線管に何本もまとめて入れると熱がこもるので、本数に応じた電流減少係数を掛けます。3本以下で0.70、4本で0.63のように決まっています。</p>
+<h2>使い方の例</h2>
+<p>IV 2.0mm（30℃で35A）を電線管に3本入れると、35×1.00×0.70＝24.5なので、7捨8入して24Aです。耐熱電線（HIVなど）は最高許容温度が高いので、同じ条件でも許容電流が大きくなります。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li class="here"><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-
-
-<script src="assets/math.js?v=3"></script>
+<script src="assets/math.js?v=4"></script>
 <script>
+
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };

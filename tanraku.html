@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>短絡電流の計算（％インピーダンス）｜でんこうナビ</title>
+<meta name="description" content="変圧器の容量・電圧・％インピーダンスから、二次側の三相短絡電流の目安を計算します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/tanraku">
+<meta property="og:title" content="短絡電流の計算（％インピーダンス）｜でんこうナビ">
+<meta property="og:description" content="変圧器の容量・電圧・％インピーダンスから、二次側の三相短絡電流の目安を計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/tanraku">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>短絡電流</h1></div>
+    <div class="opts"><div class="grp" role="radiogroup" aria-label="電気方式"><label><input type="radio" name="sys" value="3" checked><span>三相</span></label><label><input type="radio" name="sys" value="1"><span>単相</span></label></div></div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"><div><dt>I<sub>s</sub></dt><dd>短絡電流〔A〕</dd></div><div><dt>I<sub>n</sub></dt><dd>定格電流〔A〕</dd></div><div><dt>%Z</dt><dd>％インピーダンス〔%〕</dd></div></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_S"><label for="S"><var>S</var>変圧器容量</label><div class="in"><input id="S" type="number" inputmode="decimal" step="any" value="100"><span class="u">kVA</span></div></div><div class="f" id="f_V"><label for="V"><var>V</var>二次電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="210"><span class="u">V</span></div></div><div class="f" id="f_Z"><label for="Z"><var>%Z</var>％インピーダンス</label><div class="in"><input id="Z" type="number" inputmode="decimal" step="any" value="3"><span class="u">%</span></div><span class="hint">変圧器の銘板・試験成績書の値</span></div></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>Is＝In×100/%Z。電源側（上位系統）のインピーダンスと配線のインピーダンスを無視した、変圧器端子での最大値の目安です。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-cross.png" alt=""></div></section>
+</main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>短絡電流とは</h2>
+<p>電線どうしが直接触れる「短絡」が起きると、ふだんの何十倍もの電流が流れます。その大きさは、変圧器の％インピーダンス（%Z）で決まります。%Zが3％なら、短絡電流は定格電流の100÷3＝約33倍です。</p>
+<h2>現場での使い方</h2>
+<p>ブレーカーには「遮断容量」があり、それを超える短絡電流は安全に切れません。主幹や分岐のブレーカーは、取り付ける場所の短絡電流より大きい遮断容量のものを選びます。</p>
+<h2>注意すること</h2>
+<p>この計算は、変圧器の二次端子で短絡したときの最大値の目安です。実際は上位の系統や配線の抵抗で、もう少し小さくなります。変圧器から離れた分電盤では、配線のインピーダンスも入れて計算すると、より正確になります。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li class="here"><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+<script src="assets/math.js?v=4"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { var e = document.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : null; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  function say(t, s) { $('line').textContent = t; $('sub').textContent = s || ''; }
+  var S = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  var Sn = function (b, s) { return '<msub><mi>' + b + '</mi><mn>' + s + '</mn></msub>'; };
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+  function n(x) { return M.n(M.num(x)); }
+
+  function render() {
+    var three = radio('sys') === '3', S0 = num('S'), V = num('V'), Z = num('Z');
+    $('eq').innerHTML = M.block(S('I', 's') + M.eq + S('I', 'n') + M.x + M.frac(M.n('100'), M.i('%Z')) + M.unit('A'));
+    if (!(S0 > 0 && V > 0 && Z > 0)) return say('数値を入れてください');
+    var In = S0 * 1000 / ((three ? Math.sqrt(3) : 1) * V), Is = In * 100 / Z;
+    $('line').innerHTML = M.block(S('I', 's') + M.eq + M.n(In.toFixed(1)) + M.x + M.frac(M.n('100'), n(Z)) + M.approx + M.nb((Is / 1000).toFixed(2)) + M.unit('kA'));
+    $('sub').textContent = '定格電流 ' + In.toFixed(1) + 'A。遮断器の遮断容量はこれより大きいものを選ぶ';
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+
+})();
+</script>
+</body>
+</html>

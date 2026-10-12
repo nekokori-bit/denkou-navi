@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>変圧器の定格電流（単相・三相）｜でんこうナビ</title>
+<meta name="description" content="変圧器の容量〔kVA〕と電圧から、定格電流を計算します。単相・三相に対応。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/hensouki">
+<meta property="og:title" content="変圧器の定格電流（単相・三相）｜でんこうナビ">
+<meta property="og:description" content="変圧器の容量〔kVA〕と電圧から、定格電流を計算します。単相・三相に対応。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/hensouki">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>変圧器の定格電流</h1></div>
+    <div class="opts"><div class="grp" role="radiogroup" aria-label="電気方式"><label><input type="radio" name="sys" value="3" checked><span>三相</span></label><label><input type="radio" name="sys" value="1"><span>単相</span></label></div></div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"><div><dt>I<sub>n</sub></dt><dd>定格電流〔A〕</dd></div><div><dt>S</dt><dd>定格容量〔kVA〕</dd></div><div><dt>V</dt><dd>定格電圧〔V〕（三相は線間電圧）</dd></div></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_S"><label for="S"><var>S</var>定格容量</label><div class="in"><input id="S" type="number" inputmode="decimal" step="any" value="100"><span class="u">kVA</span></div></div><div class="f" id="f_V"><label for="V"><var>V</var>定格電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="210"><span class="u">V</span></div><span class="hint">高圧側を見るなら6600</span></div></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>単相：I＝S×1000/V、三相：I＝S×1000/(√3×V)。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-hips.png" alt=""></div></section>
+</main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>定格電流の求め方</h2>
+<p>変圧器の容量 <var>S</var>〔kVA〕を電圧で割ると、定格電流が出ます。三相の場合は、さらに √3（約1.732）で割ります。たとえば三相100kVA・210Vの変圧器なら約275A、同じ変圧器の高圧側6600Vでは約8.7Aです。</p>
+<h2>現場での使い方</h2>
+<p>二次側の主幹ブレーカーや幹線の太さを決めるときの出発点になります。高圧側の電流は、PFのヒューズやVCBの選定にも使います。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li class="here"><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+<script src="assets/math.js?v=4"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { var e = document.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : null; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  function say(t, s) { $('line').textContent = t; $('sub').textContent = s || ''; }
+  var S = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  var Sn = function (b, s) { return '<msub><mi>' + b + '</mi><mn>' + s + '</mn></msub>'; };
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+  function n(x) { return M.n(M.num(x)); }
+
+  function render() {
+    var three = radio('sys') === '3', S0 = num('S'), V = num('V');
+    $('eq').innerHTML = M.block(S('I', 'n') + M.eq + M.frac(M.i('S') + M.x + M.n('1000'), (three ? R3 + M.x : '') + M.i('V')) + M.unit('A'));
+    if (!(S0 > 0 && V > 0)) return say('容量と電圧を入れてください');
+    var I = S0 * 1000 / ((three ? Math.sqrt(3) : 1) * V);
+    $('line').innerHTML = M.block(S('I', 'n') + M.eq + M.frac(n(S0) + M.x + M.n('1000'), (three ? R3 + M.x : '') + n(V)) + M.approx + M.nb(I.toFixed(1)) + M.unit('A'));
+    $('sub').textContent = '短絡電流は「短絡電流」のページで、この値と％インピーダンスから計算できます';
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+
+})();
+</script>
+</body>
+</html>

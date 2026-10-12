@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電線の導体抵抗（長さ・太さ・温度）｜でんこうナビ</title>
+<meta name="description" content="銅線の導体抵抗を、長さ・断面積（または直径）・温度から計算します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/densen-teikou">
+<meta property="og:title" content="電線の導体抵抗（長さ・太さ・温度）｜でんこうナビ">
+<meta property="og:description" content="銅線の導体抵抗を、長さ・断面積（または直径）・温度から計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/densen-teikou">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>電線の導体抵抗</h1></div>
+    <div class="opts"><div class="grp" role="radiogroup" aria-label="太さの入れ方"><label><input type="radio" name="shape" value="a" checked><span>断面積</span></label><label><input type="radio" name="shape" value="d"><span>直径</span></label></div><div class="grp" role="radiogroup" aria-label="長さ"><label><input type="radio" name="trip" value="1" checked><span>片道</span></label><label><input type="radio" name="trip" value="2"><span>往復</span></label></div></div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"><div><dt>R</dt><dd>導体抵抗〔Ω〕</dd></div><div><dt>ρ</dt><dd>抵抗率 1/58〔Ω·mm²/m〕（20℃の標準軟銅）</dd></div><div><dt>L</dt><dd>長さ〔m〕</dd></div><div><dt>A</dt><dd>断面積〔mm²〕</dd></div><div><dt>α</dt><dd>温度係数 0.00393</dd></div><div><dt>t</dt><dd>導体の温度〔℃〕</dd></div></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_L"><label for="L"><var>L</var>こう長</label><div class="in"><input id="L" type="number" inputmode="decimal" step="any" value="50"><span class="u">m</span></div></div><div class="f" id="f_A"><label for="A"><var>A</var>断面積</label><div class="in"><input id="A" type="number" inputmode="decimal" step="any" value="5.5"><span class="u">mm²</span></div></div><div class="f" id="f_d"><label for="d"><var>d</var>直径</label><div class="in"><input id="d" type="number" inputmode="decimal" step="any" value="2.0"><span class="u">mm</span></div></div><div class="f" id="f_t"><label for="t"><var>t</var>導体の温度</label><div class="in"><input id="t" type="number" inputmode="decimal" step="any" value="20"><span class="u">℃</span></div></div></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>20℃の標準軟銅の抵抗率 1/58 Ω·mm²/m、抵抗温度係数 0.00393/℃。R＝ρL/A ×｛1＋α(t−20)｝。より線は公称断面積で計算するため、メーカーの導体抵抗値とは少し違うことがあります。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-one_up.png" alt=""></div></section>
+</main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>導体抵抗の考え方</h2>
+<p>電線の抵抗は、長いほど大きく、太いほど小さくなります。さらに温度が上がると、銅の抵抗は1℃あたり約0.4％増えます。このページでは、20℃の標準軟銅の値（抵抗率1/58 Ω·mm²/m）を基準に、温度による変化も入れて計算しています。</p>
+<h2>現場での使い方</h2>
+<p>長い配線の電圧降下を詳しく見たいときや、絶縁抵抗とは別に導通を確認するときの目安になります。往復を選ぶと、行きと帰りの2本分の抵抗になります。</p>
+<h2>電圧降下の計算との関係</h2>
+<p>「電圧降下」のページの係数 35.6・30.8・17.8 は、導電率97％の銅（17.8 Ω·mm²/km）をもとにした簡易式です。こちらは100％（標準軟銅）なので、値が3％ほど小さく出ます。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li class="here"><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
+<a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
+
+<script src="assets/math.js?v=4"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { var e = document.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : null; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  function say(t, s) { $('line').textContent = t; $('sub').textContent = s || ''; }
+  var S = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  var Sn = function (b, s) { return '<msub><mi>' + b + '</mi><mn>' + s + '</mn></msub>'; };
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+  function n(x) { return M.n(M.num(x)); }
+
+  function render() {
+    var dia = radio('shape') === 'd', k = +radio('trip');
+    $('f_A').hidden = dia; $('f_d').hidden = !dia;
+    var L = num('L'), t = num('t'), A = dia ? Math.PI / 4 * Math.pow(num('d'), 2) : num('A');
+    $('eq').innerHTML = M.block(M.i('R') + M.eq + M.frac(M.i('ρ') + M.x + (k === 2 ? M.n('2') : '') + M.i('L'), M.i('A')) + M.x + '<mo>{</mo>' + M.n('1') + M.o('+') + M.i('α') + M.paren(M.i('t') + M.o('−') + M.n('20')) + '<mo>}</mo>' + M.unit('Ω'));
+    if (!(L > 0 && A > 0 && isFinite(t))) return say('数値を入れてください');
+    var r = L * k / 58 / A * (1 + 0.00393 * (t - 20));
+    $('line').innerHTML = M.block(M.i('R') + M.eq + M.frac(M.frac(M.n('1'), M.n('58')) + M.x + (k === 2 ? M.n('2') + M.x : '') + n(L), n(A)) + M.x + '<mo>{</mo>' + M.n('1') + M.o('+') + M.n('0.00393') + M.paren(n(t) + M.o('−') + M.n('20')) + '<mo>}</mo>' + M.approx + M.nb(r.toFixed(4)) + M.unit('Ω'));
+    $('sub').textContent = (dia ? '断面積 ' + A.toFixed(3) + 'mm²、' : '') + '1kmあたり ' + (1000 / 58 / A * (1 + 0.00393 * (t - 20))).toFixed(3) + 'Ω';
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+
+})();
+</script>
+</body>
+</html>

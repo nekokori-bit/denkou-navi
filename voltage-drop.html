@@ -5,11 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>電圧降下・電線の断面積の計算｜でんこうナビ</title>
 <meta name="description" content="電圧降下と電線の断面積を、簡易計算式（35.6・30.8・17.8）で計算します。こう長・電流・断面積を入れるだけ。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/voltage-drop">
+<meta property="og:title" content="電圧降下・電線の断面積の計算｜でんこうナビ">
+<meta property="og:description" content="電圧降下と電線の断面積を、簡易計算式（35.6・30.8・17.8）で計算します。こう長・電流・断面積を入れるだけ。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/voltage-drop">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3">
-<link rel="stylesheet" href="assets/tool.css?v=3">
+<link rel="stylesheet" href="assets/site.css?v=4">
+<link rel="stylesheet" href="assets/tool.css?v=4">
 </head>
 <body>
 
@@ -39,14 +44,29 @@
     </form>
     <details class="basis-in"><summary>計算の根拠</summary><p>導体は導電率97%の軟銅線（JIS C 3001）、抵抗率17.8 Ω・mm²/km。係数は単相2線式・直流2線式35.6（線間）、三相3線式30.8（線間）、単相3線式・三相4線式17.8（外側線または各相の1線と中性線との間）。リアクタンスと力率は考えない簡易式です。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara.png" alt="" width="346" height="900"></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-point_up.png" alt=""></div></section>
 </main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>電圧降下とは</h2>
+<p>電線にも少し抵抗があるので、電流が流れると、電源から離れるほど電圧が下がります。これが電圧降下です。下がりすぎると、モーターが回りにくくなったり、照明が暗くなったりします。</p>
+<h2>簡易式の係数</h2>
+<p>35.6・30.8・17.8 は、導電率97％の銅線を前提に、電気方式ごとの電線の本数や電流の流れ方をまとめた係数です。単相2線式は往復2本分なので35.6、三相3線式は√3倍の関係から30.8、単相3線式・三相4線式は中性線との間を見るので17.8になります。</p>
+<h2>どこまで下がってよいか</h2>
+<p>内線規程では、幹線と分岐回路をあわせて、標準電圧の2％以下（こう長や供給方法によって3〜7％まで）を目安にしています。断面積を求めるモードでは、許せる電圧降下を入れると、必要な太さと、ひとつ上の標準サイズでの電圧降下が出ます。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li class="here"><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量を</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-
-
-<script src="assets/math.js?v=3"></script>
+<script src="assets/math.js?v=4"></script>
 <script>
+
 (function () {
   'use strict';
   var K = { '2': '35.6', '3': '30.8', '4': '17.8' };
