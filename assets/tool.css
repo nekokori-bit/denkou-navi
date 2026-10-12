@@ -109,3 +109,6 @@ html, body { height: 100%; }
 /* 吹き出しの数式が狭い画面ではみ出さないように */
 .bubble .line { font-size: clamp(17px, 1.75vw, 40px); overflow-x: visible; }
 .bubble .line math { max-width: 100%; }
+
+/* 単位の亀甲かっこ〔 〕をWindowsでも正しく表示 */
+math mtext { font-family: "BIZ UDPMincho", "Yu Mincho", serif; }
