@@ -127,3 +127,56 @@ math mtext { font-family: "BIZ UDPMincho", "Yu Mincho", serif; }
 .tools-nav li.here a { background: var(--ink); color: var(--paper); }
 .chara img { height: 100%; width: auto; }
 @media (max-width: 900px) { .guide { grid-template-columns: minmax(0, 1fr); padding: 0 10px; } .guide-body, .tools-nav { padding: 14px 16px; } }
+
+/* ===== 見やすさの調整（v6） ===== */
+/* 吹き出しはダークモードでも白地に黒文字 */
+.bubble { color: #1a1a1a; }
+.bubble .sub { color: #9a3412; line-height: 1.6; }
+.bubble .big b { color: #9a3412; }
+/* 記号の説明と入力欄の文字を少し濃く・大きく */
+.legend { color: var(--ink); row-gap: 6px; }
+.legend dd { color: var(--ink-2); }
+.f .hint { font-size: 12.5px; }
+.f .in { border-bottom-width: 2.5px; }
+.f input:focus { background: #fff6d6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .f input:focus { background: var(--accent-soft); } }
+.titlebar h1 { letter-spacing: .04em; }
+.opts span { transition: background .15s, color .15s; }
+.opts span:hover { background: var(--accent-soft); }
+.opts input:checked + span:hover { background: var(--ink); }
+
+/* 目標の入力欄 */
+.f.goal { background: #fff8db; border: 2px dashed #d6a400; border-radius: 10px; padding: 8px 12px 10px; }
+.f.goal .tag { display: inline-block; background: #d6a400; color: #fff; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; margin-right: 6px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .f.goal { background: #332b12; border-color: #a88200; } }
+
+/* 判定のバッジ（吹き出しの上） */
+.stat { position: absolute; top: -18px; right: 22px; font-weight: 700; font-size: clamp(14px, 1.1vw, 18px); line-height: 1; padding: 9px 16px; border: 3px solid #111; border-radius: 999px; box-shadow: 3px 4px 0 #111; color: #fff; white-space: nowrap; animation: stat-in .35s cubic-bezier(.2, 1.6, .4, 1); }
+.stat.ok { background: #1f9d55; }
+.stat.ok::before { content: "✔ "; }
+.stat.ng { background: #d93a2b; }
+.stat.ng::before { content: "！ "; }
+@keyframes stat-in { from { transform: scale(.4) rotate(-8deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.bubble:has(.stat:not([hidden])) { padding-top: 28px; }
+
+/* 表情が変わったときに少し跳ねる */
+.chara.pop img { animation: chara-pop .4s ease-out; }
+@keyframes chara-pop { 0% { transform: translateY(0); } 35% { transform: translateY(-14px); } 100% { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .stat, .chara.pop img { animation: none; } }
+
+/* 解説 */
+.guide-body h2 { border-left: 6px solid #d6a400; padding-left: 10px; }
+.guide-body p { line-height: 1.95; }
+
+@media (max-width: 900px) {
+  .stat { top: -16px; right: 12px; font-size: 13px; padding: 7px 12px; white-space: normal; max-width: 85%; }
+  .bubble:has(.stat:not([hidden])) { padding-top: 24px; }
+  .f.goal { grid-column: 1 / -1; }
+}
+.f.goal { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(120px, 280px); justify-content: start; align-items: end; column-gap: 18px; }
+.f.goal label { margin: 0 0 6px; min-height: 0; }
+.f.goal .hint { grid-column: 1 / -1; }
+.f.goal .tag { flex: none; white-space: nowrap; }
+.f input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+.f input::-webkit-outer-spin-button, .f input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+@media (max-width: 520px) { .f.goal { grid-template-columns: minmax(0, 1fr); } }

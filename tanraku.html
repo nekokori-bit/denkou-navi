@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -25,10 +25,10 @@
     <div class="opts"><div class="grp" role="radiogroup" aria-label="電気方式"><label><input type="radio" name="sys" value="3" checked><span>三相</span></label><label><input type="radio" name="sys" value="1"><span>単相</span></label></div></div>
     <div class="eq" id="eq"></div>
     <dl class="legend" id="legend"><div><dt>I<sub>s</sub></dt><dd>短絡電流〔A〕</dd></div><div><dt>I<sub>n</sub></dt><dd>定格電流〔A〕</dd></div><div><dt>%Z</dt><dd>％インピーダンス〔%〕</dd></div></dl>
-    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_S"><label for="S"><var>S</var>変圧器容量</label><div class="in"><input id="S" type="number" inputmode="decimal" step="any" value="100"><span class="u">kVA</span></div></div><div class="f" id="f_V"><label for="V"><var>V</var>二次電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="210"><span class="u">V</span></div></div><div class="f" id="f_Z"><label for="Z"><var>%Z</var>％インピーダンス</label><div class="in"><input id="Z" type="number" inputmode="decimal" step="any" value="3"><span class="u">%</span></div><span class="hint">変圧器の銘板・試験成績書の値</span></div></form>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_S"><label for="S"><var>S</var>変圧器容量</label><div class="in"><input id="S" type="number" inputmode="decimal" step="any" value="100"><span class="u">kVA</span></div></div><div class="f" id="f_V"><label for="V"><var>V</var>二次電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="210"><span class="u">V</span></div></div><div class="f" id="f_Z"><label for="Z"><var>%Z</var>％インピーダンス</label><div class="in"><input id="Z" type="number" inputmode="decimal" step="any" value="3"><span class="u">%</span></div><span class="hint">変圧器の銘板・試験成績書の値</span></div><div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>遮断器の遮断容量</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">kA</span></div><span class="hint">カタログの定格遮断容量</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>Is＝In×100/%Z。電源側（上位系統）のインピーダンスと配線のインピーダンスを無視した、変圧器端子での最大値の目安です。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-cross.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-senior-normal.png?v=6" data-normal="assets/chara-senior-normal.png?v=6" data-ok="assets/chara-senior-ok.png?v=6" data-ng="assets/chara-senior-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -48,7 +48,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -61,11 +61,11 @@
   var R3 = '<msqrt><mn>3</mn></msqrt>';
   function n(x) { return M.n(M.num(x)); }
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var three = radio('sys') === '3', S0 = num('S'), V = num('V'), Z = num('Z');
     $('eq').innerHTML = M.block(S('I', 's') + M.eq + S('I', 'n') + M.x + M.frac(M.n('100'), M.i('%Z')) + M.unit('A'));
     if (!(S0 > 0 && V > 0 && Z > 0)) return say('数値を入れてください');
-    var In = S0 * 1000 / ((three ? Math.sqrt(3) : 1) * V), Is = In * 100 / Z;
+    var In = S0 * 1000 / ((three ? Math.sqrt(3) : 1) * V), Is = In * 100 / Z; window.RESULT = Is / 1000;
     $('line').innerHTML = M.block(S('I', 's') + M.eq + M.n(In.toFixed(1)) + M.x + M.frac(M.n('100'), n(Z)) + M.approx + M.nb((Is / 1000).toFixed(2)) + M.unit('kA'));
     $('sub').textContent = '定格電流 ' + In.toFixed(1) + 'A。遮断器の遮断容量はこれより大きいものを選ぶ';
   }
@@ -74,5 +74,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": "goal", "cmp": "le", "ok": "遮断容量は足りてる！", "ng": "遮断容量が足りない…危ない！"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

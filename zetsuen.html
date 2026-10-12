@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -25,10 +25,10 @@
     
     <div class="eq" id="eq"><div class="tbl"><table><thead><tr><th>電路の使用電圧の区分</th><th>絶縁抵抗値</th></tr></thead><tbody><tr id="r1"><td>300V以下・対地電圧150V以下</td><td>0.1MΩ以上</td></tr><tr id="r2"><td>300V以下・その他</td><td>0.2MΩ以上</td></tr><tr id="r3"><td>300Vを超えるもの</td><td>0.4MΩ以上</td></tr></tbody></table></div></div>
     <dl class="legend" id="legend"><div><dt>使用電圧</dt><dd>電路の使用電圧〔V〕</dd></div><div><dt>対地電圧</dt><dd>大地との間の電圧〔V〕</dd></div></dl>
-    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_V"><label for="V">使用電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="200"><span class="u">V</span></div></div><div class="f" id="f_Ve"><label for="Ve">対地電圧</label><div class="in"><input id="Ve" type="number" inputmode="decimal" step="any" value="100"><span class="u">V</span></div><span class="hint">単相3線100/200Vなら100、三相3線200Vなら200</span></div><div class="f" id="f_m"><label for="m">測定値（任意）</label><div class="in"><input id="m" type="number" inputmode="decimal" step="any" value=""><span class="u">MΩ</span></div></div></form>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_V"><label for="V">使用電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="200"><span class="u">V</span></div></div><div class="f" id="f_Ve"><label for="Ve">対地電圧</label><div class="in"><input id="Ve" type="number" inputmode="decimal" step="any" value="100"><span class="u">V</span></div><span class="hint">単相3線100/200Vなら100、三相3線200Vなら200</span></div><div class="f goal" id="f_m"><label for="m">測定値（任意）</label><div class="in"><input id="m" type="number" inputmode="decimal" step="any" value=""><span class="u">MΩ</span></div></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>電気設備に関する技術基準を定める省令 第58条。電路の電線相互間・電路と大地との間の絶縁抵抗は、開閉器・過電流遮断器で区切れる電路ごとに、表の値以上。絶縁抵抗の測定が難しい場合は、漏えい電流が1mA以下であればよい（電技解釈 第14条）。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-cross.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-veteran-normal.png?v=6" data-normal="assets/chara-veteran-normal.png?v=6" data-ok="assets/chara-veteran-ok.png?v=6" data-ng="assets/chara-veteran-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -48,7 +48,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -61,11 +61,11 @@
   var R3 = '<msqrt><mn>3</mn></msqrt>';
   function n(x) { return M.n(M.num(x)); }
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var V = num('V'), Ve = num('Ve'), m = num('m');
     ['r1', 'r2', 'r3'].forEach(function (r) { $(r).className = ''; });
     if (!(V > 0 && Ve > 0)) return say('使用電圧と対地電圧を入れてください');
-    var k = V > 300 ? 3 : (Ve <= 150 ? 1 : 2), std = [0, 0.1, 0.2, 0.4][k];
+    var k = V > 300 ? 3 : (Ve <= 150 ? 1 : 2), std = [0, 0.1, 0.2, 0.4][k]; window.RESULT = std;
     $('r' + k).className = 'on';
     $('line').innerHTML = '<span class="big">基準値は <b>' + std + 'MΩ</b> 以上</span>';
     $('sub').textContent = m > 0 ? '測定値 ' + m + 'MΩ は基準値の ' + (m / std).toFixed(1) + '倍' : '開閉器や遮断器で区切れる電路ごとに測る';
@@ -75,5 +75,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": "m", "cmp": "le", "ok": "絶縁抵抗は基準値以上！", "ng": "絶縁抵抗が基準値より低い…"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

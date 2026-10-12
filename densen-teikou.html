@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -28,7 +28,7 @@
     <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_L"><label for="L"><var>L</var>こう長</label><div class="in"><input id="L" type="number" inputmode="decimal" step="any" value="50"><span class="u">m</span></div></div><div class="f" id="f_A"><label for="A"><var>A</var>断面積</label><div class="in"><input id="A" type="number" inputmode="decimal" step="any" value="5.5"><span class="u">mm²</span></div></div><div class="f" id="f_d"><label for="d"><var>d</var>直径</label><div class="in"><input id="d" type="number" inputmode="decimal" step="any" value="2.0"><span class="u">mm</span></div></div><div class="f" id="f_t"><label for="t"><var>t</var>導体の温度</label><div class="in"><input id="t" type="number" inputmode="decimal" step="any" value="20"><span class="u">℃</span></div></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>20℃の標準軟銅の抵抗率 1/58 Ω·mm²/m、抵抗温度係数 0.00393/℃。R＝ρL/A ×｛1＋α(t−20)｝。より線は公称断面積で計算するため、メーカーの導体抵抗値とは少し違うことがあります。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-one_up.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-one_up.png?v=6" data-normal="assets/chara-one_up.png?v=6" data-ok="assets/chara-main-ok.png?v=6" data-ng="assets/chara-main-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -48,7 +48,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -61,7 +61,7 @@
   var R3 = '<msqrt><mn>3</mn></msqrt>';
   function n(x) { return M.n(M.num(x)); }
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var dia = radio('shape') === 'd', k = +radio('trip');
     $('f_A').hidden = dia; $('f_d').hidden = !dia;
     var L = num('L'), t = num('t'), A = dia ? Math.PI / 4 * Math.pow(num('d'), 2) : num('A');
@@ -76,5 +76,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": null, "cmp": "le", "ok": null, "ng": null};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

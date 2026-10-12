@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -25,10 +25,10 @@
     <div class="opts"><div class="grp" role="radiogroup" aria-label="変圧器"><label><input type="radio" name="sys" value="3" checked><span>三相</span></label><label><input type="radio" name="sys" value="1"><span>単相</span></label></div></div>
     <div class="eq" id="eq"></div>
     <dl class="legend" id="legend"><div><dt>P<sub>m</sub></dt><dd>最大需要電力〔kW〕</dd></div><div><dt>需要率</dt><dd>最大需要電力 ÷ 設備容量</dd></div><div><dt>不等率</dt><dd>各負荷の最大の合計 ÷ 合成した最大</dd></div><div><dt>cosθ</dt><dd>力率</dd></div></dl>
-    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P"><label for="P">設備容量の合計</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="120"><span class="u">kW</span></div></div><div class="f" id="f_d"><label for="d">需要率</label><div class="in"><input id="d" type="number" inputmode="decimal" step="any" value="60"><span class="u">%</span></div></div><div class="f" id="f_u"><label for="u">不等率</label><div class="in"><input id="u" type="number" inputmode="decimal" step="any" value="1.2"></div><span class="hint">1以上。わからなければ1</span></div><div class="f" id="f_pf"><label for="pf"><var>cosθ</var>力率</label><div class="in"><input id="pf" type="number" inputmode="decimal" step="any" value="0.85"></div></div></form>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P"><label for="P">設備容量の合計</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="120"><span class="u">kW</span></div></div><div class="f" id="f_d"><label for="d">需要率</label><div class="in"><input id="d" type="number" inputmode="decimal" step="any" value="60"><span class="u">%</span></div></div><div class="f" id="f_u"><label for="u">不等率</label><div class="in"><input id="u" type="number" inputmode="decimal" step="any" value="1.2"></div><span class="hint">1以上。わからなければ1</span></div><div class="f" id="f_pf"><label for="pf"><var>cosθ</var>力率</label><div class="in"><input id="pf" type="number" inputmode="decimal" step="any" value="0.85"></div></div><div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>予定の変圧器容量</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">kVA</span></div><span class="hint">入れると容量が足りるか判定します</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>最大需要電力＝設備容量×需要率÷不等率、変圧器容量＝最大需要電力÷力率。変圧器は一般的な標準容量から選んでいます。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-thinking.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-senior-normal.png?v=6" data-normal="assets/chara-senior-normal.png?v=6" data-ok="assets/chara-senior-ok.png?v=6" data-ng="assets/chara-senior-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -48,7 +48,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -65,10 +65,10 @@
   $('eq').classList.add('two');
   $('eq').innerHTML = M.block(S('P', 'm') + M.eq + M.frac('<mtext>設備容量</mtext>' + M.x + '<mtext>需要率</mtext>', '<mtext>不等率</mtext>') + M.unit('kW')) +
     M.block('<mtext>変圧器容量</mtext>' + M.o('≧') + M.frac(S('P', 'm'), '<mi>cos</mi><mo>&#8289;</mo><mi>θ</mi>') + M.unit('kVA'));
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var P = num('P'), d = num('d') / 100, u = num('u'), pf = num('pf');
     if (!(P > 0 && d > 0 && u >= 1 && pf > 0 && pf <= 1)) return say('数値を入れてください（不等率は1以上、力率は0〜1）');
-    var Pm = P * d / u, kva = Pm / pf, pick = STD[radio('sys')].filter(function (s) { return s >= kva; })[0];
+    var Pm = P * d / u, kva = Pm / pf; window.RESULT = kva; var pick = STD[radio('sys')].filter(function (s) { return s >= kva; })[0];
     $('line').innerHTML = M.block(S('P', 'm') + M.eq + M.frac(n(P) + M.x + n(d), n(u)) + M.eq + M.nb(Pm.toFixed(1)) + M.unit('kW')) +
       M.block(M.frac(n(Pm.toFixed(1)), n(pf)) + M.eq + M.nb(kva.toFixed(1)) + M.unit('kVA'));
     $('sub').textContent = pick ? '標準容量なら ' + pick + 'kVA 以上' : '一覧の最大容量を超えます。変圧器を分けることも考えます';
@@ -78,5 +78,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": "goal", "cmp": "le", "ok": "変圧器の容量は足りてる！", "ng": "変圧器の容量が足りない…"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

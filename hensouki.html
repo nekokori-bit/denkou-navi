@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -25,10 +25,10 @@
     <div class="opts"><div class="grp" role="radiogroup" aria-label="電気方式"><label><input type="radio" name="sys" value="3" checked><span>三相</span></label><label><input type="radio" name="sys" value="1"><span>単相</span></label></div></div>
     <div class="eq" id="eq"></div>
     <dl class="legend" id="legend"><div><dt>I<sub>n</sub></dt><dd>定格電流〔A〕</dd></div><div><dt>S</dt><dd>定格容量〔kVA〕</dd></div><div><dt>V</dt><dd>定格電圧〔V〕（三相は線間電圧）</dd></div></dl>
-    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_S"><label for="S"><var>S</var>定格容量</label><div class="in"><input id="S" type="number" inputmode="decimal" step="any" value="100"><span class="u">kVA</span></div></div><div class="f" id="f_V"><label for="V"><var>V</var>定格電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="210"><span class="u">V</span></div><span class="hint">高圧側を見るなら6600</span></div></form>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_S"><label for="S"><var>S</var>定格容量</label><div class="in"><input id="S" type="number" inputmode="decimal" step="any" value="100"><span class="u">kVA</span></div></div><div class="f" id="f_V"><label for="V"><var>V</var>定格電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="210"><span class="u">V</span></div><span class="hint">高圧側を見るなら6600</span></div><div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>主幹ブレーカーの定格</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">A</span></div><span class="hint">定格電流以上あるか判定します</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>単相：I＝S×1000/V、三相：I＝S×1000/(√3×V)。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-hips.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-senior-normal.png?v=6" data-normal="assets/chara-senior-normal.png?v=6" data-ok="assets/chara-senior-ok.png?v=6" data-ng="assets/chara-senior-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -46,7 +46,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -59,11 +59,11 @@
   var R3 = '<msqrt><mn>3</mn></msqrt>';
   function n(x) { return M.n(M.num(x)); }
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var three = radio('sys') === '3', S0 = num('S'), V = num('V');
     $('eq').innerHTML = M.block(S('I', 'n') + M.eq + M.frac(M.i('S') + M.x + M.n('1000'), (three ? R3 + M.x : '') + M.i('V')) + M.unit('A'));
     if (!(S0 > 0 && V > 0)) return say('容量と電圧を入れてください');
-    var I = S0 * 1000 / ((three ? Math.sqrt(3) : 1) * V);
+    var I = S0 * 1000 / ((three ? Math.sqrt(3) : 1) * V); window.RESULT = I;
     $('line').innerHTML = M.block(S('I', 'n') + M.eq + M.frac(n(S0) + M.x + M.n('1000'), (three ? R3 + M.x : '') + n(V)) + M.approx + M.nb(I.toFixed(1)) + M.unit('A'));
     $('sub').textContent = '短絡電流は「短絡電流」のページで、この値と％インピーダンスから計算できます';
   }
@@ -72,5 +72,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": "goal", "cmp": "le", "ok": "主幹の定格は足りてる！", "ng": "主幹の定格が足りない…"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

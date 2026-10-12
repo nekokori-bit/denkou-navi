@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -25,10 +25,10 @@
     <div class="opts"><div class="grp" role="radiogroup" aria-label="高圧側の遮断"><label><input type="radio" name="cut" value="150" checked><span>自動遮断なし</span></label><label><input type="radio" name="cut" value="300"><span>1秒超2秒以内</span></label><label><input type="radio" name="cut" value="600"><span>1秒以内</span></label></div></div>
     <div class="eq" id="eq"></div>
     <dl class="legend" id="legend"><div><dt>R<sub>B</sub></dt><dd>接地抵抗値の上限〔Ω〕</dd></div><div><dt>I<sub>g</sub></dt><dd>高圧側電路の1線地絡電流〔A〕</dd></div></dl>
-    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_Ig"><label for="Ig"><var>I<sub>g</sub></var>1線地絡電流</label><div class="in"><input id="Ig" type="number" inputmode="decimal" step="any" value="5"><span class="u">A</span></div><span class="hint">電力会社に問い合わせて確認する値</span></div></form>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_Ig"><label for="Ig"><var>I<sub>g</sub></var>1線地絡電流</label><div class="in"><input id="Ig" type="number" inputmode="decimal" step="any" value="5"><span class="u">A</span></div><span class="hint">電力会社に問い合わせて確認する値</span></div><div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>測定した接地抵抗</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">Ω</span></div><span class="hint">接地抵抗計の測定値</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>電技解釈 第17条第2項。B種接地の抵抗値は 150/Ig 以下。高圧側の電路と低圧側の電路の混触時に、1秒を超え2秒以内に自動的に遮断する装置があれば 300/Ig、1秒以内なら 600/Ig 以下。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-one_up.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-veteran-normal.png?v=6" data-normal="assets/chara-veteran-normal.png?v=6" data-ok="assets/chara-veteran-ok.png?v=6" data-ng="assets/chara-veteran-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -48,7 +48,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -61,11 +61,11 @@
   var R3 = '<msqrt><mn>3</mn></msqrt>';
   function n(x) { return M.n(M.num(x)); }
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var k = +radio('cut'), I = num('Ig');
     $('eq').innerHTML = M.block(S('R', 'B') + M.o('≦') + M.frac(M.n(k), S('I', 'g')) + M.unit('Ω'));
     if (!(I > 0)) return say('1線地絡電流を入れてください');
-    var R = k / I;
+    var R = k / I; window.RESULT = R;
     $('line').innerHTML = M.block(S('R', 'B') + M.o('≦') + M.frac(M.n(k), n(I)) + M.eq + M.nb(M.num(R)) + M.unit('Ω'));
     $('sub').textContent = '接地抵抗はこの値以下にする';
   }
@@ -74,5 +74,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": "goal", "cmp": "ge", "ok": "接地抵抗は基準以下！", "ng": "接地抵抗が高すぎる…"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

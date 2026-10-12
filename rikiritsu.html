@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -25,10 +25,10 @@
     
     <div class="eq" id="eq"></div>
     <dl class="legend" id="legend"><div><dt>Q<sub>C</sub></dt><dd>必要なコンデンサ容量〔kvar〕</dd></div><div><dt>P</dt><dd>有効電力〔kW〕</dd></div><div><dt>cosθ₁</dt><dd>改善前の力率</dd></div><div><dt>cosθ₂</dt><dd>改善後の力率</dd></div></dl>
-    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P"><label for="P"><var>P</var>有効電力</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="100"><span class="u">kW</span></div></div><div class="f" id="f_c1"><label for="c1"><var>cosθ₁</var>改善前の力率</label><div class="in"><input id="c1" type="number" inputmode="decimal" step="any" value="0.8"></div></div><div class="f" id="f_c2"><label for="c2"><var>cosθ₂</var>改善後の力率</label><div class="in"><input id="c2" type="number" inputmode="decimal" step="any" value="0.95"></div></div></form>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P"><label for="P"><var>P</var>有効電力</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="100"><span class="u">kW</span></div></div><div class="f" id="f_c1"><label for="c1"><var>cosθ₁</var>改善前の力率</label><div class="in"><input id="c1" type="number" inputmode="decimal" step="any" value="0.8"></div></div><div class="f" id="f_c2"><label for="c2"><var>cosθ₂</var>改善後の力率</label><div class="in"><input id="c2" type="number" inputmode="decimal" step="any" value="0.95"></div></div><div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>設置するコンデンサ</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">kvar</span></div><span class="hint">予定の容量を入れると足りるか判定します</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>Q＝P(tanθ₁−tanθ₂)、tanθ＝√(1−cos²θ)/cosθ。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-thumbs_up.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.png?v=6" data-normal="assets/chara-junior-normal.png?v=6" data-ok="assets/chara-junior-ok.png?v=6" data-ng="assets/chara-junior-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -48,7 +48,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -66,11 +66,11 @@
     M.block('<mi>tan</mi><mo>&#8289;</mo><mi>θ</mi>' + M.eq + M.frac(M.sqrt(M.n('1') + M.o('−') + '<msup><mrow><mi>cos</mi><mo>&#8289;</mo><mi>θ</mi></mrow><mn>2</mn></msup>'), '<mi>cos</mi><mo>&#8289;</mo><mi>θ</mi>'));
   $('eq').classList.add('two');
   function tn(c) { return Math.sqrt(1 - c * c) / c; }
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var P = num('P'), c1 = num('c1'), c2 = num('c2');
     if (!(P > 0 && c1 > 0 && c1 <= 1 && c2 > 0 && c2 <= 1)) return say('有効電力と力率（0〜1）を入れてください');
     if (c2 <= c1) return say('改善後の力率は、改善前より大きくしてください');
-    var t1 = tn(c1), t2 = tn(c2), q = P * (t1 - t2);
+    var t1 = tn(c1), t2 = tn(c2), q = P * (t1 - t2); window.RESULT = q;
     $('line').innerHTML = M.block(S('Q', 'C') + M.eq + n(P) + M.paren(M.n(t1.toFixed(3)) + M.o('−') + M.n(t2.toFixed(3))) + M.approx + M.nb(q.toFixed(1)) + M.unit('kvar'));
     $('sub').textContent = '皮相電力 ' + (P / c1).toFixed(1) + 'kVA → ' + (P / c2).toFixed(1) + 'kVA';
   }
@@ -79,5 +79,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": "goal", "cmp": "le", "ok": "コンデンサ容量は足りてる！", "ng": "コンデンサ容量が足りない…"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

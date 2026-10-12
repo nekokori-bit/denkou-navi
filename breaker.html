@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -42,7 +42,7 @@
     </form>
     <details class="basis-in"><summary>計算の根拠</summary><p>幹線：電技解釈 第148条。電線の許容電流 <var>I<sub>W</sub></var> は負荷の定格電流の合計以上。電動機等の合計 <var>I<sub>M</sub></var> がその他の合計 <var>I<sub>H</sub></var> より大きいときは、<var>I<sub>M</sub></var> が50A以下なら1.25倍、50Aを超えるなら1.1倍した値に <var>I<sub>H</sub></var> を加えた値以上（需要率・力率が明らかな場合は修正できる）。過電流遮断器の定格電流は <var>I<sub>W</sub></var> 以下。ただし電動機等をつなぐ場合は 3<var>I<sub>M</sub></var>＋<var>I<sub>H</sub></var> 以下（2.5<var>I<sub>W</sub></var> を超えるときは 2.5<var>I<sub>W</sub></var> 以下）。電動機等がない幹線で <var>I<sub>W</sub></var> が100Aを超え、その値が遮断器の標準定格にないときは直近上位の定格を使える。分岐回路：電技解釈 第149条（149-1表・149-3表）。定格は一般的な配線用遮断器の標準定格から選んでいます。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-cross.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-senior-normal.png?v=6" data-normal="assets/chara-senior-normal.png?v=6" data-ok="assets/chara-senior-ok.png?v=6" data-ng="assets/chara-senior-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -60,7 +60,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 
 (function () {
@@ -80,7 +80,7 @@
     document.querySelectorAll('.f[data-m]').forEach(function (el) { el.hidden = el.getAttribute('data-m') !== mode; });
   }
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var mode = radio('mode'); show(mode); $('eq').classList.toggle('two', mode === 'main');
     if (mode === 'branch') {
       var a = +$('IB').value, fuse = radio('kind') === 'fuse', r = BR[a].slice();
@@ -105,7 +105,7 @@
     var pick = STD.filter(function (s) { return s <= lim + 1e-9; }).pop();
     var up = false;
     if (!(IM > 0) && IW > 100 && STD.indexOf(Math.round(lim)) < 0) { var nx = STD.filter(function (s) { return s > lim; })[0]; if (nx) { pick = nx; up = true; } }
-    var load = IM + IH, ok = pick && pick >= load;
+    var load = IM + IH, ok = pick && pick >= load; if (IWin > 0) window.STATUS = (!short && ok) ? 'ok' : 'ng';
     var l1 = M.block(sub('I', 'W') + M.o('≧') + (motor ? M.n(k === 1.25 ? '1.25' : '1.1') + M.x + M.n(M.num(IM)) : M.n(M.num(IM))) + M.o('+') + M.n(M.num(IH)) + M.eq + M.nb(M.num(need)) + M.unit('A'));
     var l2 = M.block(sub('I', 'B') + M.o('≦') + (IM > 0 ? '<mrow><mo>min</mo><mo>(</mo>' + M.n(M.num(3 * IM + IH)) + '<mo>,</mo>' + M.n(M.num(2.5 * IW)) + '<mo>)</mo></mrow>' : M.n(M.num(IW))) + M.eq + M.n(M.num(lim)) + M.unit('A'));
     $('line').innerHTML = l1 + l2;
@@ -116,5 +116,7 @@
   render();
 })();
 </script>
+<script>window.GOAL = {"field": null, "cmp": "le", "ok": "電線もブレーカーもOK！", "ng": "この電線では足りない…"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

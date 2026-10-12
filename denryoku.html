@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -41,10 +41,10 @@
       <div class="f" id="fI" hidden><label for="I"><var>I</var>電流</label><div class="in"><input id="I" type="number" inputmode="decimal" step="any" value="10"><span class="u">A</span></div></div>
       <div class="f"><label for="V"><var>V</var>電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="200"><span class="u">V</span></div></div>
       <div class="f"><label for="pf"><var>cosφ</var>力率</label><div class="in"><input id="pf" type="number" inputmode="decimal" step="any" value="0.85"></div><span class="hint">わからないときは1（抵抗負荷）、モーターは0.8前後が目安</span></div>
-    </form>
+    <div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>ブレーカーの定格</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">A</span></div><span class="hint">入れると電流が収まるか判定します</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>単相：<var>P</var> ＝ <var>V</var> × <var>I</var> × cosφ ÷ 1000、三相：<var>P</var> ＝ √3 × <var>V</var> × <var>I</var> × cosφ ÷ 1000。皮相電力（kVA）は力率を1として同じ式で求めた値です。モーターの場合、銘板の出力（kW）は軸出力なので、効率も考える必要があります。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-wave.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.png?v=6" data-normal="assets/chara-junior-normal.png?v=6" data-ok="assets/chara-junior-ok.png?v=6" data-ng="assets/chara-junior-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -64,7 +64,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 
 (function () {
@@ -75,9 +75,9 @@
   var COS = '<mi>cos</mi><mo>&#8289;</mo><mi>φ</mi>';
   var R3 = '<msqrt><mn>3</mn></msqrt>';
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var mode = radio('mode'), three = radio('sys') === '3';
-    $('fP').hidden = mode !== 'i'; $('fI').hidden = mode !== 'p';
+    $('fP').hidden = mode !== 'i'; window.GOAL_ON = mode === 'i'; $('fI').hidden = mode !== 'p';
     var c = three ? R3 + M.x : '';
     if (mode === 'i') {
       $('eq').innerHTML = M.block(M.i('I') + M.eq + M.frac(M.i('P') + M.x + M.n('1000'), c + M.i('V') + M.x + COS) + M.unit('A'));
@@ -90,7 +90,7 @@
     if (mode === 'i') {
       var P = num('P');
       if (!isFinite(P)) { $('line').textContent = '消費電力を入れてください'; $('sub').textContent = ''; return; }
-      var I = P * 1000 / (k * V * pf);
+      var I = P * 1000 / (k * V * pf); window.RESULT = I;
       $('line').innerHTML = M.block(M.i('I') + M.eq + M.frac(M.n(M.num(P)) + M.x + M.n('1000'), cs + M.n(M.num(V)) + M.x + M.n(M.num(pf))) + M.approx + M.nb(I.toFixed(2)) + M.unit('A'));
       $('sub').textContent = '皮相電力 ' + (P / pf).toFixed(2) + 'kVA';
     } else {
@@ -105,5 +105,7 @@
   render();
 })();
 </script>
+<script>window.GOAL = {"field": "goal", "cmp": "le", "ok": "ブレーカーの定格に収まる！", "ng": "ブレーカーの定格を超える…"};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>

@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=5">
-<link rel="stylesheet" href="assets/tool.css?v=5">
+<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/tool.css?v=6">
 </head>
 <body>
 
@@ -28,7 +28,7 @@
     <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_V"><label for="V"><var>V</var>電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="100"><span class="u">V</span></div></div><div class="f" id="f_I"><label for="I"><var>I</var>電流</label><div class="in"><input id="I" type="number" inputmode="decimal" step="any" value="5"><span class="u">A</span></div></div><div class="f" id="f_R"><label for="R"><var>R</var>抵抗</label><div class="in"><input id="R" type="number" inputmode="decimal" step="any" value="20"><span class="u">Ω</span></div></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>オームの法則 V＝IR、電力 P＝VI＝I²R＝V²/R（直流、または交流の抵抗負荷）。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-point_up.png?v=5" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.png?v=6" data-normal="assets/chara-junior-normal.png?v=6" data-ok="assets/chara-junior-ok.png?v=6" data-ng="assets/chara-junior-ng.png?v=6" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -48,7 +48,7 @@
 </article>
 <a class="credit" href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a>
 
-<script src="assets/math.js?v=5"></script>
+<script src="assets/math.js?v=6"></script>
 <script>
 (function () {
   'use strict';
@@ -61,7 +61,7 @@
   var R3 = '<msqrt><mn>3</mn></msqrt>';
   function n(x) { return M.n(M.num(x)); }
 
-  function render() {
+  function render() { window.RESULT = NaN; window.STATUS = null;
     var m = radio('mode');
     ['V', 'I', 'R'].forEach(function (k) { $('f_' + k).hidden = k === m; });
     var V = num('V'), I = num('I'), R = num('R'), r, f;
@@ -82,5 +82,7 @@
 
 })();
 </script>
+<script>window.GOAL = {"field": null, "cmp": "le", "ok": null, "ng": null};</script>
+<script src="assets/status.js?v=6"></script>
 </body>
 </html>
