@@ -14,11 +14,12 @@
 <meta property="og:image" content="https://denkou-navi.pages.dev/assets/og/rikiritsu.jpg">
 <meta property="og:site_name" content="でんこうナビ">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebApplication", "name": "力率改善コンデンサの容量計算", "description": "負荷の有効電力と、改善前・改善後の力率から、必要なコンデンサ容量〔kvar〕を計算します。", "url": "https://denkou-navi.pages.dev/rikiritsu", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "inLanguage": "ja", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "でんこうナビ", "item": "https://denkou-navi.pages.dev/"}, {"@type": "ListItem", "position": 2, "name": "電力・回路"}, {"@type": "ListItem", "position": 3, "name": "力率改善コンデンサの容量", "item": "https://denkou-navi.pages.dev/rikiritsu"}]}]</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=6">
-<link rel="stylesheet" href="assets/tool.css?v=6">
+<link rel="stylesheet" href="assets/site.css?v=7">
+<link rel="stylesheet" href="assets/tool.css?v=7">
 </head>
 <body>
 
@@ -32,7 +33,7 @@
     <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P"><label for="P"><var>P</var>有効電力</label><div class="in"><input id="P" type="number" inputmode="decimal" step="any" value="100"><span class="u">kW</span></div></div><div class="f" id="f_c1"><label for="c1"><var>cosθ₁</var>改善前の力率</label><div class="in"><input id="c1" type="number" inputmode="decimal" step="any" value="0.8"></div></div><div class="f" id="f_c2"><label for="c2"><var>cosθ₂</var>改善後の力率</label><div class="in"><input id="c2" type="number" inputmode="decimal" step="any" value="0.95"></div></div><div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>設置するコンデンサ</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">kvar</span></div><span class="hint">予定の容量を入れると足りるか判定します</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>Q＝P(tanθ₁−tanθ₂)、tanθ＝√(1−cos²θ)/cosθ。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.png?v=6" data-normal="assets/chara-junior-normal.png?v=6" data-ok="assets/chara-junior-ok.png?v=6" data-ng="assets/chara-junior-ng.png?v=6" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.webp?v=7" data-normal="assets/chara-junior-normal.webp?v=7" data-ok="assets/chara-junior-ok.webp?v=7" data-ng="assets/chara-junior-ng.webp?v=7" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -47,12 +48,12 @@
   </div>
   <nav class="tools-nav" aria-label="ほかの計算">
     <h2>ほかの計算</h2>
-    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li class="here"><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-sentei">電線の太さ選定</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/tani-kansan">馬力・kW・kVA・電流の換算</a></li><li><a href="/tansou3sen">単相3線式の中性線電流と中性線断線時の電圧</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li class="here"><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/setti-shurui">接地工事の種類と接地抵抗値</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
   </nav>
 </article>
 <footer class="site-foot"><a href="/about">運営者情報・免責事項</a><a href="/privacy">プライバシーポリシー</a><a href="https://docs.google.com/forms/d/e/1FAIpQLScXcZYu-RVy4348ByzaAKRFihagPV0rSlSPLWI5PPGaT_cAgA/viewform" target="_blank" rel="noopener">お問い合わせ</a><a href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a></footer>
 
-<script src="assets/math.js?v=6"></script>
+<script src="assets/math.js?v=7"></script>
 <script>
 (function () {
   'use strict';
@@ -84,6 +85,6 @@
 })();
 </script>
 <script>window.GOAL = {"field": "goal", "cmp": "le", "ok": "コンデンサ容量は足りてる！", "ng": "コンデンサ容量が足りない…"};</script>
-<script src="assets/status.js?v=6"></script>
+<script src="assets/status.js?v=7"></script>
 </body>
 </html>

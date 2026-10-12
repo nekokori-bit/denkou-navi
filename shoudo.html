@@ -14,11 +14,12 @@
 <meta property="og:image" content="https://denkou-navi.pages.dev/assets/og/shoudo.jpg">
 <meta property="og:site_name" content="でんこうナビ">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebApplication", "name": "照明器具の台数計算（光束法）", "description": "部屋の広さと必要な照度から、必要な照明器具の台数を光束法で計算します。", "url": "https://denkou-navi.pages.dev/shoudo", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "inLanguage": "ja", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "でんこうナビ", "item": "https://denkou-navi.pages.dev/"}, {"@type": "ListItem", "position": 2, "name": "照明・基準値"}, {"@type": "ListItem", "position": 3, "name": "照明器具の台数", "item": "https://denkou-navi.pages.dev/shoudo"}]}]</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=6">
-<link rel="stylesheet" href="assets/tool.css?v=6">
+<link rel="stylesheet" href="assets/site.css?v=7">
+<link rel="stylesheet" href="assets/tool.css?v=7">
 </head>
 <body>
 
@@ -32,7 +33,7 @@
     <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_E"><label for="E"><var>E</var>平均照度</label><div class="in"><input id="E" type="number" inputmode="decimal" step="any" value="500"><span class="u">lx</span></div><span class="hint">事務所 500〜750lx が目安（JIS Z 9110）</span></div><div class="f" id="f_X"><label for="X">部屋の間口</label><div class="in"><input id="X" type="number" inputmode="decimal" step="any" value="10"><span class="u">m</span></div></div><div class="f" id="f_Y"><label for="Y">部屋の奥行</label><div class="in"><input id="Y" type="number" inputmode="decimal" step="any" value="8"><span class="u">m</span></div></div><div class="f" id="f_F"><label for="F"><var>F</var>器具1台の光束</label><div class="in"><input id="F" type="number" inputmode="decimal" step="any" value="5000"><span class="u">lm</span></div></div><div class="f" id="f_U"><label for="U"><var>U</var>照明率</label><div class="in"><input id="U" type="number" inputmode="decimal" step="any" value="0.6"></div><span class="hint">メーカーの照明率表から</span></div><div class="f" id="f_Mt"><label for="Mt"><var>M</var>保守率</label><div class="in"><input id="Mt" type="number" inputmode="decimal" step="any" value="0.7"></div><span class="hint">LEDで0.7〜0.8程度</span></div><div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>設置する台数</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">台</span></div><span class="hint">予定の台数で明るさが足りるか判定します</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>光束法：N＝E×A/(F×U×M)。照明率は部屋の形（室指数）と反射率で決まるので、器具メーカーの照明率表の値を使ってください。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-veteran-normal.png?v=6" data-normal="assets/chara-veteran-normal.png?v=6" data-ok="assets/chara-veteran-ok.png?v=6" data-ng="assets/chara-veteran-ng.png?v=6" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-veteran-normal.webp?v=7" data-normal="assets/chara-veteran-normal.webp?v=7" data-ok="assets/chara-veteran-ok.webp?v=7" data-ng="assets/chara-veteran-ng.webp?v=7" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -47,12 +48,12 @@
   </div>
   <nav class="tools-nav" aria-label="ほかの計算">
     <h2>ほかの計算</h2>
-    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li class="here"><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-sentei">電線の太さ選定</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/tani-kansan">馬力・kW・kVA・電流の換算</a></li><li><a href="/tansou3sen">単相3線式の中性線電流と中性線断線時の電圧</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li class="here"><a href="/shoudo">照明器具の台数</a></li><li><a href="/setti-shurui">接地工事の種類と接地抵抗値</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
   </nav>
 </article>
 <footer class="site-foot"><a href="/about">運営者情報・免責事項</a><a href="/privacy">プライバシーポリシー</a><a href="https://docs.google.com/forms/d/e/1FAIpQLScXcZYu-RVy4348ByzaAKRFihagPV0rSlSPLWI5PPGaT_cAgA/viewform" target="_blank" rel="noopener">お問い合わせ</a><a href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a></footer>
 
-<script src="assets/math.js?v=6"></script>
+<script src="assets/math.js?v=7"></script>
 <script>
 (function () {
   'use strict';
@@ -79,6 +80,6 @@
 })();
 </script>
 <script>window.GOAL = {"field": "goal", "cmp": "le", "ok": "明るさは足りてる！", "ng": "台数が足りなくて暗い…"};</script>
-<script src="assets/status.js?v=6"></script>
+<script src="assets/status.js?v=7"></script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="imUUipqAz87n2z_sWlJRo11sRZon_l-0VDRe123fsBI">
+<title>単相3線式の中性線電流と中性線断線時の電圧｜でんこうナビ</title>
+<meta name="description" content="単相3線式100/200Vで、両側の負荷の大きさから中性線に流れる電流と、中性線が断線したときに各負荷にかかる電圧を計算します。">
+<link rel="canonical" href="https://denkou-navi.pages.dev/tansou3sen">
+<meta property="og:title" content="単相3線式の中性線電流と中性線断線時の電圧｜でんこうナビ">
+<meta property="og:description" content="単相3線式100/200Vで、両側の負荷の大きさから中性線に流れる電流と、中性線が断線したときに各負荷にかかる電圧を計算します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://denkou-navi.pages.dev/tansou3sen">
+<meta property="og:image" content="https://denkou-navi.pages.dev/assets/og/tansou3sen.jpg">
+<meta property="og:site_name" content="でんこうナビ">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebApplication", "name": "単相3線式の中性線電流と中性線断線時の電圧", "description": "単相3線式100/200Vで、両側の負荷の大きさから中性線に流れる電流と、中性線が断線したときに各負荷にかかる電圧を計算します。", "url": "https://denkou-navi.pages.dev/tansou3sen", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "inLanguage": "ja", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "でんこうナビ", "item": "https://denkou-navi.pages.dev/"}, {"@type": "ListItem", "position": 2, "name": "電力・回路"}, {"@type": "ListItem", "position": 3, "name": "単相3線式の中性線電流と中性線断線時の電圧", "item": "https://denkou-navi.pages.dev/tansou3sen"}]}]</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=7">
+<link rel="stylesheet" href="assets/tool.css?v=7">
+</head>
+<body>
+
+<main class="tool-page">
+
+  <div class="sheet">
+    <div class="titlebar"><h1>単相3線式の中性線電流</h1></div>
+    <div class="opts"><div class="grp" role="radiogroup" aria-label="求めるもの"><label><input type="radio" name="mode" value="n" checked><span>中性線の電流</span></label><label><input type="radio" name="mode" value="b"><span>中性線断線時の電圧</span></label></div></div>
+    <div class="eq" id="eq"></div>
+    <dl class="legend" id="legend"><div><dt>I<sub>N</sub></dt><dd>中性線の電流〔A〕</dd></div><div><dt>P<sub>1</sub>・P<sub>2</sub></dt><dd>100V側の負荷の消費電力〔W〕（抵抗負荷）</dd></div><div><dt>V<sub>1</sub>・V<sub>2</sub></dt><dd>断線時に各負荷にかかる電圧〔V〕</dd></div></dl>
+    <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_P1"><label for="P1"><var>P<sub>1</sub></var>上側の負荷</label><div class="in"><input id="P1" type="number" inputmode="decimal" step="any" value="1000"><span class="u">W</span></div></div><div class="f" id="f_P2"><label for="P2"><var>P<sub>2</sub></var>下側の負荷</label><div class="in"><input id="P2" type="number" inputmode="decimal" step="any" value="500"><span class="u">W</span></div></div><div class="f" id="f_V"><label for="V"><var>V</var>片側の電圧</label><div class="in"><input id="V" type="number" inputmode="decimal" step="any" value="100"><span class="u">V</span></div></div></form>
+    <details class="basis-in"><summary>計算の根拠</summary><p>抵抗負荷（力率1）として、I₁＝P₁/V、I₂＝P₂/V、中性線電流 Iɴ＝|I₁−I₂|。中性線が断線すると2つの負荷が直列に2Vへつながるので、R＝V²/P として V₁＝2V×R₁/(R₁＋R₂)。計算結果は参考値です。</p></details>
+  </div>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.webp?v=7" data-normal="assets/chara-junior-normal.webp?v=7" data-ok="assets/chara-junior-ok.webp?v=7" data-ng="assets/chara-junior-ng.webp?v=7" alt=""></div></section>
+</main>
+
+<article class="guide">
+  <div class="guide-body">
+<h2>中性線に流れる電流</h2>
+<p>単相3線式100/200Vでは、上側と下側の100V負荷の電流が、中性線の中で向きが逆になって打ち消し合います。そのため中性線には、両側の電流の差だけが流れます。両側の負荷が同じならゼロです。</p>
+<h2>中性線が切れると危ない理由</h2>
+<p>中性線が断線すると、上側と下側の負荷が直列につながって200Vがかかります。電圧は抵抗の大きい側、つまり消費電力の小さい側に多くかかるので、小さな機器に100Vを大きく超える電圧がかかって壊れることがあります。このため中性線にはヒューズを入れず、単相3線式の主幹には中性線欠相保護付きの遮断器を使います。</p>
+<h2>試験でもよく出る</h2>
+<p>第二種電気工事士の筆記試験では、中性線の電流や断線時の電圧を求める問題がよく出ます。数値を変えて、答えを確かめるのに使ってください。</p>
+  <p class="note">計算結果は参考値です。設計・施工では、電気設備技術基準・内線規程・メーカーの資料で必ず確認してください。</p>
+  </div>
+  <nav class="tools-nav" aria-label="ほかの計算">
+    <h2>ほかの計算</h2>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-sentei">電線の太さ選定</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/tani-kansan">馬力・kW・kVA・電流の換算</a></li><li class="here"><a href="/tansou3sen">単相3線式の中性線電流と中性線断線時の電圧</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/setti-shurui">接地工事の種類と接地抵抗値</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+  </nav>
+</article>
+<footer class="site-foot"><a href="/about">運営者情報・免責事項</a><a href="/privacy">プライバシーポリシー</a><a href="https://docs.google.com/forms/d/e/1FAIpQLScXcZYu-RVy4348ByzaAKRFihagPV0rSlSPLWI5PPGaT_cAgA/viewform" target="_blank" rel="noopener">お問い合わせ</a><a href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a></footer>
+
+<script src="assets/math.js?v=7"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function radio(n) { var e = document.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : null; }
+  function num(id) { var x = parseFloat($(id).value); return isFinite(x) ? x : NaN; }
+  function say(t, s) { $('line').textContent = t; $('sub').textContent = s || ''; }
+  var S = function (b, s) { return '<msub><mi>' + b + '</mi><mi>' + s + '</mi></msub>'; };
+  var Sn = function (b, s) { return '<msub><mi>' + b + '</mi><mn>' + s + '</mn></msub>'; };
+  var R3 = '<msqrt><mn>3</mn></msqrt>';
+  function n(x) { return M.n(M.num(x)); }
+
+  function render() { window.RESULT = NaN; window.STATUS = null;
+    var b = radio('mode') === 'b', P1 = num('P1'), P2 = num('P2'), V = num('V');
+    if (!b) $('eq').innerHTML = M.block(S('I', 'N') + M.eq + '<mo>|</mo>' + Sn('I', 1) + M.o('−') + Sn('I', 2) + '<mo>|</mo>' + M.eq + '<mo>|</mo>' + M.frac(Sn('P', 1), M.i('V')) + M.o('−') + M.frac(Sn('P', 2), M.i('V')) + '<mo>|</mo>' + M.unit('A'));
+    else $('eq').innerHTML = M.block(Sn('V', 1) + M.eq + M.n('2') + M.i('V') + M.x + M.frac(Sn('R', 1), Sn('R', 1) + M.o('+') + Sn('R', 2)) + M.unit('V') + '<mspace width="1em"></mspace>' + M.i('R') + M.eq + M.frac('<msup><mi>V</mi><mn>2</mn></msup>', M.i('P')));
+    if (!(P1 > 0 && P2 > 0 && V > 0)) return say('両側の負荷と電圧を入れてください');
+    var I1 = P1 / V, I2 = P2 / V;
+    if (!b) {
+      $('line').innerHTML = M.block(S('I', 'N') + M.eq + '<mo>|</mo>' + M.n(M.num(I1)) + M.o('−') + M.n(M.num(I2)) + '<mo>|</mo>' + M.eq + M.nb(M.num(Math.abs(I1 - I2))) + M.unit('A'));
+      $('sub').textContent = '上側 ' + M.num(I1) + 'A・下側 ' + M.num(I2) + 'A。両側が同じなら中性線には流れない';
+    } else {
+      var R1 = V * V / P1, R2 = V * V / P2, V1 = 2 * V * R1 / (R1 + R2), V2 = 2 * V - V1;
+      $('line').innerHTML = M.block(Sn('V', 1) + M.eq + M.n(2 * V) + M.x + M.frac(M.n(M.num(R1)), M.n(M.num(R1)) + M.o('+') + M.n(M.num(R2))) + M.approx + M.nb(V1.toFixed(1)) + M.unit('V'));
+      $('sub').textContent = '下側は ' + V2.toFixed(1) + 'V。' + (Math.max(V1, V2) > V * 1.1 ? '軽い負荷の側に高い電圧がかかり、機器が壊れるおそれがあります' : '');
+    }
+  }
+  document.querySelectorAll('input,select').forEach(function (el) { el.addEventListener('input', render); el.addEventListener('change', render); });
+  render();
+
+})();
+</script>
+<script>window.GOAL = {"field": null, "cmp": "le", "ok": null, "ng": null};</script>
+<script src="assets/status.js?v=7"></script>
+</body>
+</html>

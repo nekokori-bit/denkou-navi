@@ -14,11 +14,12 @@
 <meta property="og:image" content="https://denkou-navi.pages.dev/assets/og/gosei-teikou.jpg">
 <meta property="og:site_name" content="でんこうナビ">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebApplication", "name": "合成抵抗の計算（直列・並列）", "description": "抵抗を直列・並列につないだときの合成抵抗を計算します。最大5本まで。", "url": "https://denkou-navi.pages.dev/gosei-teikou", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "inLanguage": "ja", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "でんこうナビ", "item": "https://denkou-navi.pages.dev/"}, {"@type": "ListItem", "position": 2, "name": "電力・回路"}, {"@type": "ListItem", "position": 3, "name": "合成抵抗", "item": "https://denkou-navi.pages.dev/gosei-teikou"}]}]</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=6">
-<link rel="stylesheet" href="assets/tool.css?v=6">
+<link rel="stylesheet" href="assets/site.css?v=7">
+<link rel="stylesheet" href="assets/tool.css?v=7">
 </head>
 <body>
 
@@ -32,7 +33,7 @@
     <form class="fields" onsubmit="return false" autocomplete="off"><div class="f" id="f_r1"><label for="r1"><var>R₁</var></label><div class="in"><input id="r1" type="number" inputmode="decimal" step="any" value="10"><span class="u">Ω</span></div></div><div class="f" id="f_r2"><label for="r2"><var>R₂</var></label><div class="in"><input id="r2" type="number" inputmode="decimal" step="any" value="20"><span class="u">Ω</span></div></div><div class="f" id="f_r3"><label for="r3"><var>R₃</var></label><div class="in"><input id="r3" type="number" inputmode="decimal" step="any" value=""><span class="u">Ω</span></div></div><div class="f" id="f_r4"><label for="r4"><var>R₄</var></label><div class="in"><input id="r4" type="number" inputmode="decimal" step="any" value=""><span class="u">Ω</span></div></div><div class="f" id="f_r5"><label for="r5"><var>R₅</var></label><div class="in"><input id="r5" type="number" inputmode="decimal" step="any" value=""><span class="u">Ω</span></div></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>直列：R＝R₁＋R₂＋…、並列：1/R＝1/R₁＋1/R₂＋…。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.png?v=6" data-normal="assets/chara-junior-normal.png?v=6" data-ok="assets/chara-junior-ok.png?v=6" data-ng="assets/chara-junior-ng.png?v=6" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-junior-normal.webp?v=7" data-normal="assets/chara-junior-normal.webp?v=7" data-ok="assets/chara-junior-ok.webp?v=7" data-ng="assets/chara-junior-ng.webp?v=7" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -45,12 +46,12 @@
   </div>
   <nav class="tools-nav" aria-label="ほかの計算">
     <h2>ほかの計算</h2>
-    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li class="here"><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li><a href="/kyoyou">許容電流</a></li><li><a href="/densen-sentei">電線の太さ選定</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/tani-kansan">馬力・kW・kVA・電流の換算</a></li><li><a href="/tansou3sen">単相3線式の中性線電流と中性線断線時の電圧</a></li><li><a href="/ohm">オームの法則</a></li><li class="here"><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/setti-shurui">接地工事の種類と接地抵抗値</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
   </nav>
 </article>
 <footer class="site-foot"><a href="/about">運営者情報・免責事項</a><a href="/privacy">プライバシーポリシー</a><a href="https://docs.google.com/forms/d/e/1FAIpQLScXcZYu-RVy4348ByzaAKRFihagPV0rSlSPLWI5PPGaT_cAgA/viewform" target="_blank" rel="noopener">お問い合わせ</a><a href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a></footer>
 
-<script src="assets/math.js?v=6"></script>
+<script src="assets/math.js?v=7"></script>
 <script>
 (function () {
   'use strict';
@@ -81,6 +82,6 @@
 })();
 </script>
 <script>window.GOAL = {"field": null, "cmp": "le", "ok": null, "ng": null};</script>
-<script src="assets/status.js?v=6"></script>
+<script src="assets/status.js?v=7"></script>
 </body>
 </html>

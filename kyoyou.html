@@ -14,11 +14,12 @@
 <meta property="og:image" content="https://denkou-navi.pages.dev/assets/og/kyoyou.jpg">
 <meta property="og:site_name" content="でんこうナビ">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebApplication", "name": "許容電流の計算（周囲温度・電流減少係数）", "description": "許容電流を、周囲温度による補正係数と、電線管に収めたときの電流減少係数（電技解釈第146条）で計算します。", "url": "https://denkou-navi.pages.dev/kyoyou", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "inLanguage": "ja", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "でんこうナビ", "item": "https://denkou-navi.pages.dev/"}, {"@type": "ListItem", "position": 2, "name": "配線・電線"}, {"@type": "ListItem", "position": 3, "name": "許容電流", "item": "https://denkou-navi.pages.dev/kyoyou"}]}]</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=6">
-<link rel="stylesheet" href="assets/tool.css?v=6">
+<link rel="stylesheet" href="assets/site.css?v=7">
+<link rel="stylesheet" href="assets/tool.css?v=7">
 </head>
 <body>
 
@@ -65,7 +66,7 @@
     <div class="f goal" id="f_goal"><label for="goal"><span class="tag">目標</span>流したい電流</label><div class="in"><input id="goal" type="number" inputmode="decimal" step="any" value="" placeholder="空欄でもOK"><span class="u">A</span></div><span class="hint">負荷電流を入れると足りるか判定します</span></div></form>
     <details class="basis-in"><summary>計算の根拠</summary><p>電技解釈 第146条（146-3表の許容電流補正係数、146-4表の電流減少係数）による。電流減少係数：3本以下0.70、4本0.63、5・6本0.56、7〜15本0.49、16〜40本0.43、41〜60本0.39、61本以上0.34。中性線・接地線・制御回路の電線は本数に含めない。表示値は小数点以下1位を7捨8入。メーカーの許容電流表が30℃以外を基準にしている場合は、その資料の補正方法に従ってください。計算結果は参考値です。</p></details>
   </div>
-  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-thumbs_up.png?v=6" data-normal="assets/chara-thumbs_up.png?v=6" data-ok="assets/chara-main-ok.png?v=6" data-ng="assets/chara-main-ng.png?v=6" alt=""></div></section>
+  <section class="stage" aria-live="polite"><div class="bubble"><div class="stat" id="stat" hidden></div><div class="line" id="line"></div><div class="sub" id="sub"></div></div><div class="chara" aria-hidden="true"><img src="assets/chara-thumbs_up.webp?v=7" data-normal="assets/chara-thumbs_up.webp?v=7" data-ok="assets/chara-main-ok.webp?v=7" data-ng="assets/chara-main-ng.webp?v=7" alt=""></div></section>
 </main>
 
 <article class="guide">
@@ -80,12 +81,12 @@
   </div>
   <nav class="tools-nav" aria-label="ほかの計算">
     <h2>ほかの計算</h2>
-    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li class="here"><a href="/kyoyou">許容電流</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
+    <div class="grp-nav"><h3>配線・電線</h3><ul><li><a href="/voltage-drop">電圧降下・電線の断面積</a></li><li class="here"><a href="/kyoyou">許容電流</a></li><li><a href="/densen-sentei">電線の太さ選定</a></li><li><a href="/densen-teikou">電線の導体抵抗</a></li><li><a href="/conduit">電線管の太さ選定</a></li></ul></div><div class="grp-nav"><h3>電力・回路</h3><ul><li><a href="/denryoku">電力・電流の換算</a></li><li><a href="/tani-kansan">馬力・kW・kVA・電流の換算</a></li><li><a href="/tansou3sen">単相3線式の中性線電流と中性線断線時の電圧</a></li><li><a href="/ohm">オームの法則</a></li><li><a href="/gosei-teikou">合成抵抗</a></li><li><a href="/reactance">誘導性・容量性リアクタンス</a></li><li><a href="/rikiritsu">力率改善コンデンサの容量</a></li><li><a href="/denki-ryoukin">消費電力量と電気代</a></li></ul></div><div class="grp-nav"><h3>受変電・保護</h3><ul><li><a href="/breaker">ブレーカー選定</a></li><li><a href="/hensouki">変圧器の定格電流</a></li><li><a href="/tanraku">短絡電流</a></li><li><a href="/juyouritsu">需要率・不等率から変圧器容量</a></li></ul></div><div class="grp-nav"><h3>照明・基準値</h3><ul><li><a href="/shoudo">照明器具の台数</a></li><li><a href="/setti-shurui">接地工事の種類と接地抵抗値</a></li><li><a href="/b-shu-setti">B種接地抵抗値</a></li><li><a href="/zetsuen">低圧電路の絶縁抵抗の基準値</a></li></ul></div>
   </nav>
 </article>
 <footer class="site-foot"><a href="/about">運営者情報・免責事項</a><a href="/privacy">プライバシーポリシー</a><a href="https://docs.google.com/forms/d/e/1FAIpQLScXcZYu-RVy4348ByzaAKRFihagPV0rSlSPLWI5PPGaT_cAgA/viewform" target="_blank" rel="noopener">お問い合わせ</a><a href="https://unsplash.com/photos/doicC_ATzkQ" target="_blank" rel="noopener">背景写真：Unsplash</a></footer>
 
-<script src="assets/math.js?v=6"></script>
+<script src="assets/math.js?v=7"></script>
 <script>
 
 (function () {
@@ -131,6 +132,6 @@
 })();
 </script>
 <script>window.GOAL = {"field": "goal", "cmp": "ge", "ok": "許容電流は足りてる！", "ng": "許容電流が足りない…電線を太くしよう"};</script>
-<script src="assets/status.js?v=6"></script>
+<script src="assets/status.js?v=7"></script>
 </body>
 </html>
